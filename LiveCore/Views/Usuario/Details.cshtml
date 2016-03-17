@@ -1,0 +1,34 @@
+﻿@model LiveCore.Models.Usuario
+
+@{
+    ViewBag.Title = "Detalhes do Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalhes do Usuário - @Html.DisplayFor(model => model.Login)?</h2>
+
+<div>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Senha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Senha)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a href="@Url.Action("Edit", "Usuario", new { id = Model.UsuarioID })" title="Editar"><i class="fa fa-edit"></i></a>
+    <a href="@Url.Action("Index", "Usuario")" title="Voltar"><i class="fa fa-arrow-left"></i></a>
+</p>

@@ -1,0 +1,33 @@
+﻿@model LiveCore.Models.Servico
+
+@{
+    ViewBag.Title = "Deletar Serviço";
+    Layout = "";
+}
+
+<div>
+    
+     Você tem certeza que deseja deletar o Serviço @Html.DisplayFor(model => model.Nome)?
+    @Html.HiddenFor(model => model.ServicoID)
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" id="submit" hidden />
+        </div>
+    }
+  
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+
+
+        });
+    </script>
+}

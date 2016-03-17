@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f889ba5fcaeb4ed9802f51850a092a1a" Name="Diagram1">
+        <EntityTypeShape EntityType="LIVECOREModel.STATUS" Width="1.5" PointX="3.5" PointY="0.75" />
+        <EntityTypeShape EntityType="LIVECOREModel.TIPOCONTRATO" Width="1.5" PointX="7.625" PointY="0.875" />
+        <EntityTypeShape EntityType="LIVECOREModel.UNIDADE" Width="1.5" PointX="1" PointY="0.75" />
+        <EntityTypeShape EntityType="LIVECOREModel.SERVICO" Width="1.5" PointX="0.5" PointY="4.625" />
+        <AssociationConnector Association="LIVECOREModel.FK_SERVICO_UNIDADE" />
+        <EntityTypeShape EntityType="LIVECOREModel.AREAESCOPO" Width="1.5" PointX="5.75" PointY="0.875" />
+        <EntityTypeShape EntityType="LIVECOREModel.EQUIPAMENTO" Width="1.5" PointX="2.125" PointY="4.625" />
+        <AssociationConnector Association="LIVECOREModel.FK_EQUIPAMENTO_UNIDADE" />
+        <EntityTypeShape EntityType="LIVECOREModel.USUARIO" Width="1.5" PointX="4.375" PointY="3.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

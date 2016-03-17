@@ -1,0 +1,99 @@
+﻿@model IEnumerable<LiveCore.Models.ItemPropostaEquipamento>
+
+@{
+    ViewBag.Title = "Item da Proposta - Equipamento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/Proposta">Proposta</a></li>
+    <li><a href="/Proposta/Details/@ViewBag.Proposta">Proposta @ViewBag.IdentProposta</a></li>
+    <li class="active">Item de Equipamento</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" id="create" href="@Url.Action("Create", "ItemPropostaEquipamento", new { propostaID = ViewBag.Proposta })"><i class="fa fa-plus"></i> Novo Item de Equipamento</a>
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="cancelar" onclick="location.href = '@Url.Action("Details", "Proposta", new { id = ViewBag.Proposta })'" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Cancelar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert"></div>
+
+<div class="panel panel-default">
+    <table class="table">
+        <tr class="panel-heading cabecalho">
+            <th>
+                @Html.DisplayNameFor(model => model.Equipamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoContrato)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValorUnitario)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+    {
+        <tr class="trselect">
+            <td>
+                @Html.DisplayFor(modelItem => item.Equipamento.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoContrato.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValorUnitario)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => item.ItemPropostaEquipID)
+            </td>
+        </tr>
+    }
+
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(document).tooltip();
+            $("#alerta").hide();
+
+            $(".trselect").click(function () {
+                var id = $(this).find("#item_ItemPropostaEquipID").val();
+                window.location.href = "/ItemPropostaEquipamento/Details/" + id;
+            });
+        });
+
+    </script>
+}

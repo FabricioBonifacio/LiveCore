@@ -1,0 +1,33 @@
+﻿@model LiveCore.Models.Unidade
+
+@{
+    ViewBag.Title = "Deletar Unidade";
+    Layout = "";
+}
+
+<div>
+    
+    Você tem certeza que deseja deletar a Unidade @Html.DisplayFor(model => model.Nome)?
+    @Html.HiddenFor(model => model.UnidadeSigla)
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <div class="form-actions no-color">
+        <input type="submit" value="Deletar" id="submit" hidden />
+    </div>
+}
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#submit").hide();
+        });
+
+    </script>
+
+}

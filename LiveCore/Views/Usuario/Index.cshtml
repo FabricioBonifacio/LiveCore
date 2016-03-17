@@ -1,0 +1,40 @@
+﻿@model IEnumerable<LiveCore.Models.Usuario>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="@Url.Action("Create", "Usuario")" title="Novo Usuario"><i class="fa fa-plus-square-o"></i></a> 
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Senha)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Login)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Senha)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", "Usuario", new { id = item.UsuarioID })" title="Editar"><i class="fa fa-edit"></i></a>
+            <a href="@Url.Action("Details", "Usuario", new { id = item.UsuarioID })" title="Detalhes"><i class="fa fa-list"></i></a>
+            <a href="@Url.Action("Delete", "Usuario", new { id = item.UsuarioID })" title="Deletar"><i class="fa fa-trash-o"></i></a>
+        </td>
+    </tr>
+}
+
+</table>

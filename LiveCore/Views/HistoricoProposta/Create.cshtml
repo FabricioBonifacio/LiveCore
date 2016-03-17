@@ -1,0 +1,66 @@
+﻿@model LiveCore.Models.HistoricoProposta
+
+@{
+    ViewBag.Title = "Novo Histórico da Proposta";
+    Layout = "";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataCriacao, new { @class = "control-label col-md-3" })
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.DataCriacao)
+                @Html.HiddenFor(model => model.DataCriacao)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CriadoPor, new { @class = "control-label col-md-3" })
+            <div class="col-md-7">
+                @Html.DisplayFor(model => model.CriadoPor)
+                @Html.HiddenFor(model => model.CriadoPor)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descricao, new { @class = "control-label col-md-3" })
+                <div class="col-xs-9">
+                @Html.TextAreaFor(model => model.Descricao, new { @class = "form-control", @rows = "10" })
+                @Html.ValidationMessageFor(model => model.Descricao)
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.PropostaID)
+                
+            </div>
+        </div>
+
+       <!-- <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>-->
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    
+    $(document).ready(function () {
+        
+        
+
+    });
+
+</script>
+}

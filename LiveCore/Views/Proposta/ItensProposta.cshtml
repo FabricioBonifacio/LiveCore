@@ -1,0 +1,231 @@
+﻿@model LiveCore.Models.Proposta
+
+@{
+    ViewBag.Title = "Detalhes da Proposta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="~/Proposta/Index">Proposta</a></li>
+    <li><a href="~/Proposta/Details/@Model.PropostaID">Proposta @Model.IdentProposta</a></li>
+    <li class="active">Itens da Proposta</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "Proposta")"><i class="fa fa-plus"></i> Nova Proposta</a>
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="cancelar" onclick="location.href = '@Url.Action("Details", "Proposta", new { id = Model.PropostaID })'" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Cancelar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li><a href="@Url.Action("Create", "ItemPropostaEquipamento", new { propostaID = Model.PropostaID })"><i class="fa fa-keyboard-o"></i> Novo Item de Equipamento</a></li>
+            <li><a href="@Url.Action("Create", "ItemPropostaServico", new { propostaID = Model.PropostaID })"><i class="fa fa-wrench"></i> Novo Item de Serviço</a></li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro@ViewBag.Msg@ViewBag.Aviso</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Itens da Proposta nº @Model.IdentProposta</h4></div>
+    <div class="panel-body">
+        
+        @foreach (LiveCore.Models.AreaEscopo item in ViewBag.AreasEscopo)
+        {
+            <div class="panel panel-default">
+                <table class="table">
+                    <tr class="panel-heading">
+                        <th>
+                            @item.Nome
+                        </th>
+                        
+                    </tr>
+                    <tr class="panel-heading cabecalho">
+                        <th>
+                            @Html.ActionLink("Descrição", "ItensProposta", new { ordem = ViewBag.DescSortParm })
+                        </th>
+                        <th>
+                            @Html.ActionLink("Tipo de Item", "ItensProposta", new { ordem = ViewBag.TipoItemSortParm })
+                        </th>
+                        <th>
+                            @Html.ActionLink("Tipo de Contrato", "ItensProposta", new { ordem = ViewBag.TipoContratoSortParm })
+                        </th>
+                        <th>
+                            @Html.ActionLink("Quantidade", "ItensProposta", new { ordem = ViewBag.QuantidadeSortParm })
+                        </th>
+                        <th>
+                            @Html.ActionLink("Valor", "ItensProposta", new { ordem = ViewBag.ValorSortParm })
+                        </th>
+                        <th>
+                            Valor Total
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    @foreach (var itemProposta in Model.ItemPropostaServicos)
+                    {
+                        if(itemProposta.AreaEscopo.AreaEscopoID == item.AreaEscopoID)
+                        { 
+                            <tr class="trselect">
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemProposta.Servico.Nome)
+                                </td>
+                            
+                                <td class="tipoItemProposta">
+                                    Serviço
+                                </td>
+                            
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemProposta.TipoContrato.Nome)
+                                </td>
+                            
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemProposta.Quantidade)
+                                </td>
+                            
+                                <td class="ValorUnitario">
+                                    @Html.DisplayFor(modelItem => itemProposta.ValorUnitario)
+                                </td>
+                                <td class="ValorTotal">
+                                    @{
+                            TempData["ValorTotal"] = (itemProposta.Quantidade * itemProposta.ValorUnitario).ToString("C2");
+                                    }
+                                    @TempData["ValorTotal"]
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(modelItem => itemProposta.ItemPropostaServID)
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(modelItem => itemProposta.Moeda)
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @foreach (var itemProposta in Model.ItemPropostaEquipamentos)
+                    {
+                        if (itemProposta.AreaEscopo.AreaEscopoID == item.AreaEscopoID)
+                        {
+                            <tr class="trselect">
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemProposta.Equipamento.Nome)
+                                </td>
+
+                                <td class="tipoItemProposta">
+                                    Equipamento
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemProposta.TipoContrato.Nome)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemProposta.Quantidade)
+                                </td>
+
+                                <td class="ValorUnitario">
+                                    @Html.DisplayFor(modelItem => itemProposta.ValorUnitario)
+                                </td>
+                                <td class="ValorTotal">
+                                    @{
+                            TempData["ValorTotal"] = (itemProposta.Quantidade * itemProposta.ValorUnitario).ToString("C2");
+                                    }
+                                    @TempData["ValorTotal"]
+                                </td>
+
+                                <td>
+                                    @Html.HiddenFor(modelItem => itemProposta.ItemPropostaEquipID)
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(modelItem => itemProposta.Moeda)
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    
+                </table>
+                <div class="panel-footer text-right">
+                    @Html.Label("Soma dos Valores em Reais: ") @(((decimal)ViewData[@item.Nome]).ToString("C2")) <br />
+                   <div class="ValorEmDolar">@(((decimal)ViewData[@item.Nome + "Dolar"]).ToString("C2")) </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+    $(document).ready(function () {
+
+        $('.collapse').collapse();
+        $(".table").find("tr").find("th").css("width", "18%");
+        $(".label").css("font-weight", "bold");
+
+        $(".panel-footer").each(function (index) {
+            var valor = $(this).find('.ValorEmDolar').text();
+            $(this).find('.ValorEmDolar').html("<b>Soma dos Valores em Dólares: </b>");
+            $(this).find('.ValorEmDolar').append(valor.replace("R$", "U$"));
+        });
+
+        if ($('#alerta').html() == '') {
+            $("#alerta").hide();
+        }
+        else if ('@ViewBag.Aviso'.length > 0) {
+            $("#alerta").addClass("alert-warning");
+            $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Aviso!</strong> @ViewBag.Aviso');
+            $("#alerta").show();
+        }
+        else if ('@ViewBag.Erro'.length > 0) {
+            $("#alerta").addClass("alert-danger");
+            $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+            $("#alerta").show();
+        }
+        else if ('@ViewBag.Msg'.length > 0) {
+            $("#alerta").addClass("alert-success");
+            $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>@ViewBag.Msg</strong>');
+            $("#alerta").show();
+        }
+
+        $(".trselect").click(function () {
+            var tipo = $(this).find(".tipoItemProposta").text();
+            if (tipo.trim() == "Serviço")
+            {
+                var id = $(this).find("#itemProposta_ItemPropostaServID").val();
+                window.location.href = "/ItemPropostaServico/Details/" + id;
+            }
+            else
+            {
+                var id = $(this).find("#itemProposta_ItemPropostaEquipID").val();
+                window.location.href = "/ItemPropostaEquipamento/Details/" + id;
+            }
+            
+        });
+
+        $(".trselect").each(function (index) {
+            var moeda = $(this).find("#itemProposta_Moeda").val();
+            if (moeda == "U$") {
+                $(this).find(".ValorUnitario").text($(this).find(".ValorUnitario").text().replace("R$", "U$"));
+                $(this).find(".ValorTotal").text($(this).find(".ValorTotal").text().replace("R$", "U$"));
+            }
+        });
+    });
+
+</script>
+
+}

@@ -1,0 +1,740 @@
+﻿@model LiveCore.Models.ItemPropostaServico
+
+@{
+    ViewBag.Title = "Novo Item da Proposta - Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    List<SelectListItem> listMoeda = new List<SelectListItem>();
+    listMoeda.Add(new SelectListItem
+         {
+             Text = "Real",
+             Value = "R$"
+         });
+    listMoeda.Add(new SelectListItem
+         {
+             Text = "Dólar",
+             Value = "U$",
+         });
+
+}
+
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/Proposta">Proposta</a></li>
+    <li><a href="/Proposta/Details/@ViewBag.Proposta">Proposta @ViewBag.IdentProposta</a></li>
+    <li><a href="/Proposta/ItensProposta/@ViewBag.Proposta">Itens da Proposta</a></li>
+    <li class="active">Novo Item de Serviço</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "ItemPropostaServico", new { propostaID = ViewBag.Proposta })"><i class="fa fa-plus"></i> Novo Item de Serviço</a>
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="cancelar" onclick="location.href = '@Url.Action("Index", "ItemPropostaServico", new { id = ViewBag.Proposta })'" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Cancelar
+        </button>
+        <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+            <span class="fa fa-save"></span> Salvar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Item de Proposta - Novo item de Serviço</h4></div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Moeda, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.DropDownListFor(model => model.Moeda, listMoeda, "-- Selecione --")
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TipoContratoID, "Tipo de Contrato", new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBox("TipoContratoAutoComplete")
+                        @Html.HiddenFor(model => model.TipoContratoID)
+                        @Html.ValidationMessageFor(model => model.TipoContratoID)
+                    </div>
+                    <button type="button" id="completarTipoContrato" class="btn btn-primary btn-sm">Completar Cadastro</button>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AreaEscopoID, "Área de Escopo", new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBox("AreaEscopoAutoComplete")
+                        @Html.HiddenFor(model => model.AreaEscopoID)
+                        @Html.ValidationMessageFor(model => model.AreaEscopoID)
+                    </div>
+                    <button type="button" id="completarAreaEscopo" class="btn btn-primary btn-sm">Completar Cadastro</button>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ServicoID, "Serviço", new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBox("ServicoAutoComplete")
+                        @Html.HiddenFor(model => model.ServicoID)
+                        @Html.ValidationMessageFor(model => model.ServicoID)
+                    </div>
+                    <button type="button" id="completarServico" class="btn btn-primary btn-sm">Completar Cadastro</button>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ValorUnitario, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.EditorFor(model => model.ValorUnitario)
+                        @Html.ValidationMessageFor(model => model.ValorUnitario)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Quantidade, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-1">
+                        @Html.EditorFor(model => model.Quantidade)
+                        @Html.ValidationMessageFor(model => model.Quantidade)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Valor Total", new { @class = "control-label col-md-2" })
+                    <div class="col-xs-3">
+                        @Html.Label(" ", new { @class = "control-label", @id = "valorTotal" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+
+                    <div class="col-xs-3">
+                        @Html.HiddenFor(model => model.PropostaID)
+                        @Html.ValidationMessageFor(model => model.PropostaID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Salvar" id="submit" />
+                    </div>
+                    <button id="chamarModal" onclick="location.href = '#myModal'" data-toggle="modal" data-target="#myModal" class="btn btn-danger navbar-btn">
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div id="corpoModal" class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModal" class="btn btn-default" data-dismiss="modal">Não</button>
+                <button type="button" id="salvarModal" class="btn btn-primary">Sim</button>
+                <button type="button" id="editarModal" class="btn btn-primary">Salvar</button>
+                <button type="button" id="salvarModalAreaEscopo" class="btn btn-primary">Sim</button>
+                <button type="button" id="editarModalAreaEscopo" class="btn btn-primary">Salvar</button>
+                <button type="button" id="salvarModalServico" class="btn btn-primary">Sim</button>
+                <button type="button" id="editarModalServico" class="btn btn-primary">Salvar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+       
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#submit").hide();
+            $("#chamarModal").hide();
+
+            $("#ValorUnitario").mask("000.000.000,00", { reverse: true, maxlength: false });
+
+            $("#TipoContratoID").addClass("form-control");
+            $("#Quantidade").addClass("form-control");
+            $("#ValorUnitario").addClass("form-control");
+            $("#ServicoID").addClass("form-control");
+            $("#AreaEscopoID").addClass("form-control");
+            $("#Moeda").addClass("form-control");
+
+            $("#Quantidade").focusout(function () {
+                if ($(this).val() < 0) {
+                    $(this).val("0");
+                }
+                else {
+                    if ($("#ValorUnitario").val() != "") {
+                        calculaValorTotal();
+                    }
+                }
+            });
+
+            $("#ValorUnitario").focusout(function () {
+                if ($("#Moeda").val() != "" && $("#Quantidade").val() != "") {
+                        calculaValorTotal();
+                }
+            });
+
+            function calculaValorTotal() {
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Content("~/ItemPropostaServico/CalculaValorTotal/")',
+                    data: { valorUnitario: $("#ValorUnitario").val(), quantidade: $("#Quantidade").val() },
+                    success: function (data) {
+                        $("#valorTotal").text(data);
+                        $("#valorTotal").mask("000.000.000,00", { reverse: true, maxlength: false });
+                        $("#valorTotal").text($("#Moeda").val() + " " + $("#valorTotal").text());
+                    }
+                });
+            }
+
+            function buscaValores() {
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Content("~/ItemPropostaServico/BuscaValores/")',
+                    data: { id: $("#ServicoID").val(), moeda: $("#Moeda").val() },
+                    success: function (data) {
+                        $("#ValorUnitario").val(data);
+                        if ($("#Quantidade").val() != "" && $("#Quantidade").val() >= 0) {
+                            calculaValorTotal();
+                        }
+                        $("#ValorUnitario").mask("000.000.000,00", { reverse: true, maxlength: false });
+                    }
+                });
+            }
+                       
+
+            $("#Moeda").change(function () {
+                if ($("#ServicoID").val() != "" && $("#ServicoID").val() > 0) {
+                    buscaValores();
+                }
+            });
+
+            $("#submitFalso").click(function () {
+                var campos = "";
+                if ($("#TipoContratoID").val() == 0) {
+                    campos += " Tipo de Contrato,";
+                }
+                if ($("#AreaEscopoID").val() == 0) {
+                    campos += " Área de Escopo,";
+                }
+                if ($("#Moeda").val() == "") {
+                    campos += " Moeda,";
+                }
+                if ($("#ServicoID").val() == 0) {
+                    campos += " Serviço,";
+                }
+
+                if (campos != "") {
+                    campos = campos.substring(0, campos.length - 1);
+
+                    $("#alerta").addClass("alert-warning");
+                    $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Aviso!</strong> Favor preencher os campos<b>' + campos + ".</b>");
+                    $("#alerta").show();
+                    return;
+                }
+               else {
+                    $("#ValorUnitario").val($("#ValorUnitario").val().replace(".", ""));
+                    $("#submit").trigger('click');
+                }
+            });
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+
+            // Inicio do auto complete do Tipo Contrato
+            $("#TipoContratoAutoComplete").autocomplete({
+                source: function(request,response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteTipoContrato","TipoContrato")',
+                        type: "GET",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Nome, value: item.TipoContratoID };
+                            }))
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+
+            $("#TipoContratoAutoComplete").focusout(function () {
+                $("#editarModal").hide();
+                $("#editarModalAreaEscopo").hide();
+                $("#salvarModalAreaEscopo").hide();
+                $("#editarModalServico").hide();
+                $("#salvarModalServico").hide();
+                $("#salvarModal").show();
+                if ($(this).val().trim() != "") {
+                    $.ajax({
+                        url: '@Url.Action("RecuperaTipoContratoPorNome", "TipoContrato")',
+                        type: "GET",
+                        data: { tipoContrato: $("#TipoContratoAutoComplete").val() },
+                        success: function (data) {
+                            if (data > 0) {
+                                $("#TipoContratoID").val(data);
+                                
+                            }
+                            else {
+                                $("#chamarModal").click();
+                                $("#myModalLabel").html('Criar Tipo de Contrato');
+                                $("#corpoModal").html("Esse Tipo de Contrato não existe. Criar Agora?");
+                            }
+                        }
+                    })
+                }
+            });
+
+            $("#salvarModal").click(function () {
+                var selectedValue = $("#TipoContratoAutoComplete").val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Content("~/TipoContrato/CriarTipoContrato/")',
+                    data: { tipoContratoNovo: selectedValue },
+                    success: function (data) {
+                        if(data > 0)
+                        {
+                            $("#TipoContratoID").val(data);
+                            $("#closeModal").click();
+                        }
+                    }
+                });
+            });
+
+            $("#editarModal").click(function () {
+                var equip = $('#SNEquipamento').prop('checked') ? true : false;
+                var serv = $('#SNServico').prop('checked') ? true : false;
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Content("~/TipoContrato/EditTipoContratoModal/")',
+                    data: { tipoContratoID: $("#TipoContratoID").val(), nome: $("#Nome").val(), descricao: $("#Descricao").val(), SNServico: serv, SNEquipamento: equip },
+                    success: function (msg) {
+                        $("#myModal").find("#closeModal").click();
+                        $.ajax({
+                            url: '@Url.Action("RecuperaTipoContratoPorId","TipoContrato")',
+                            type: "GET",
+                            data: { tipoContratoID: $("#TipoContratoID").val() },
+                            success: function (data) {
+                                if (data.length > 0) {
+                                    $("#TipoContratoAutoComplete").val(data);
+                                }
+                            }
+                        })
+                    }
+                })
+            });
+
+            $("#completarTipoContrato").click(function () {
+                $("#salvarModal").hide();
+                $("#editarModalAreaEscopo").hide();
+                $("#salvarModalAreaEscopo").hide();
+                $("#editarModalServico").hide();
+                $("#salvarModalServico").hide();
+                $("#editarModal").show();
+                if ($("#TipoContratoID").val().trim() != "" && $("#TipoContratoID").val() > 0) {
+                    $.ajax({
+                        url: '@Url.Action("Edit","TipoContrato")',
+                        type: "GET",
+                        data: { id: $("#TipoContratoID").val() },
+                        success: function (data) {
+                            $("#chamarModal").click();
+                            $("#myModalLabel").html('Editar Tipo de Contrato');
+                            $("#corpoModal").html(data);
+                        }
+                    })
+                }
+            });
+            // Fim do auto complete do Tipo Contrato
+
+            // Inicio do auto complete da Area de Escopo
+            $("#AreaEscopoAutoComplete").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteAreaEscopo", "AreaEscopo")',
+                        type: "GET",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Nome, value: item.TipoContratoID };
+                            }))
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+
+            $("#AreaEscopoAutoComplete").focusout(function () {
+                $("#editarModal").hide();
+                $("#salvarModal").hide();
+                $("#editarModalAreaEscopo").hide();
+                $("#editarModalServico").hide();
+                $("#salvarModalServico").hide();
+                $("#salvarModalAreaEscopo").show();
+                if ($(this).val().trim() != "") {
+                    $.ajax({
+                        url: '@Url.Action("RecuperaAreaEscopoPorNome", "AreaEscopo")',
+                        type: "GET",
+                        data: { areaEscopo: $("#AreaEscopoAutoComplete").val() },
+                        success: function (data) {
+                            if (data > 0) {
+                                $("#AreaEscopoID").val(data);
+                            }
+                            else {
+                                $("#chamarModal").click();
+                                $("#myModalLabel").html('Criar Área de Escopo');
+                                $("#corpoModal").html("Essa Área de Escopo não existe. Criar Agora?");
+                            }
+                        }
+                    })
+                }
+            });
+
+            $("#salvarModalAreaEscopo").click(function () {
+                var selectedValue = $("#AreaEscopoAutoComplete").val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Content("~/AreaEscopo/CriarAreaEscopo/")',
+                    data: { areaEscopoNovo: selectedValue },
+                    success: function (data) {
+                        if (data > 0) {
+                            $("#AreaEscopoID").val(data);
+                            $("#closeModal").click();
+                        }
+                    }
+                });
+            });
+
+            $("#editarModalAreaEscopo").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Content("~/AreaEscopo/EditAreaEscopoModal/")',
+                    data: { areaEscopoID: $("#AreaEscopoID").val(), nome: $("#Nome").val(), descricao: $("#Descricao").val() },
+                    success: function (msg) {
+                        $("#myModal").find("#closeModal").click();
+                        $.ajax({
+                            url: '@Url.Action("RecuperaAreaEscopoPorId", "AreaEscopo")',
+                            type: "GET",
+                            data: { tipoContratoID: $("#AreaEscopoID").val() },
+                            success: function (data) {
+                                if (data.length > 0) {
+                                    $("#AreaEscopoAutoComplete").val(data);
+                                }
+                            }
+                        })
+                    }
+                })
+            });
+
+            $("#completarAreaEscopo").click(function () {
+                $("#editarModal").hide();
+                $("#salvarModal").hide();
+                $("#salvarModalAreaEscopo").hide();
+                $("#editarModalServico").hide();
+                $("#salvarModalServico").hide();
+                $("#editarModalAreaEscopo").show();
+                if ($("#AreaEscopoID").val().trim() != "" && $("#AreaEscopoID").val() > 0) {
+                    $.ajax({
+                        url: '@Url.Action("Edit", "AreaEscopo")',
+                        type: "GET",
+                        data: { id: $("#AreaEscopoID").val() },
+                        success: function (data) {
+                            $("#chamarModal").click();
+                            $("#myModalLabel").html('Editar Área de Escopo');
+                            $("#corpoModal").html(data);
+                        }
+                    })
+                }
+            });
+            // Fim do auto complete do Area de Escopo
+            
+            // Inicio do auto complete do Serviço
+            $("#ServicoAutoComplete").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteServico","Servico")',
+                        type: "GET",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Nome, value: item.ServicoID };
+                            }))
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+
+            $("#ServicoAutoComplete").focusout(function () {
+                $("#editarModal").hide();
+                $("#editarModalAreaEscopo").hide();
+                $("#salvarModalAreaEscopo").hide();
+                $("#salvarModal").hide();
+                $("#editarModalServico").hide();
+                $("#salvarModalServico").show();
+                if ($(this).val().trim() != "") {
+                    $.ajax({
+                        url: '@Url.Action("RecuperaServicoPorNome", "Servico")',
+                        type: "GET",
+                        data: { servico: $("#ServicoAutoComplete").val() },
+                        success: function (data) {
+                            if (data > 0) {
+                                $("#ServicoID").val(data);
+                                if ($("#Moeda").val() != "") {
+                                    if (parseInt($("#ValorUnitario").val()) <= 0 || $("#ValorUnitario").val().trim() == "") {
+                                        buscaValores();
+                                    }
+                                }
+                            }
+                            else {
+                                $("#chamarModal").click();
+                                $("#myModalLabel").html('Criar Serviço');
+                                $("#corpoModal").html("Esse Serviço não existe. Criar Agora?");
+                            }
+                        }
+                    })
+                }
+            });
+
+            $("#salvarModalServico").click(function () {
+                var selectedValue = $("#ServicoAutoComplete").val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Content("~/Servico/CriarServico/")',
+                    data: { servicoNovo: selectedValue },
+                    success: function (data) {
+                        if (data > 0) {
+                            $("#ServicoID").val(data);
+                            $("#closeModal").click();
+                        }
+                    }
+                });
+            });
+
+            $("#editarModalServico").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Content("~/Servico/EditServicoModal/")',
+                    data: {
+                        servicoID: $("#ServicoID").val(), nome: $("#Nome").val(), descricao: $("#Descricao").val(),
+                        unidade: $("#UnidadeSigla").val(), valor: $("#Valor").val(), valorDolar: $("#ValorDolar").val(),
+                        
+                    },
+                    success: function (msg) {
+                        $("#myModal").find("#closeModal").click();
+                        $.ajax({
+                            url: '@Url.Action("RecuperaServicoId","Servico")',
+                            type: "GET",
+                            data: { tipoContratoID: $("#ServicoID").val() },
+                            success: function (data) {
+                                if (data.length > 0) {
+                                    $("#ServicoAutoComplete").val(data);
+                                }
+                            }
+                        })
+                    }
+                })
+            });
+
+            $("#completarServico").click(function () {
+                $("#salvarModal").hide();
+                $("#editarModalAreaEscopo").hide();
+                $("#salvarModalAreaEscopo").hide();
+                $("#editarModal").hide();
+                $("#salvarModalServico").hide();
+                $("#editarModalServico").show();                
+                if ($("#ServicoID").val().trim() != "" && $("#ServicoID").val() > 0) {
+                    $.ajax({
+                        url: '@Url.Action("EditPopUp","Servico")',
+                        type: "GET",
+                        data: { id: $("#ServicoID").val() },
+                        success: function (data) {
+                            $("#chamarModal").click();
+                            $("#myModalLabel").html('Editar Serviço');
+                            $("#corpoModal").html(data);
+                            $("#Valor").mask("000.000.000,00", { reverse: true, maxlength: false });
+                            $("#ValorDolar").mask("000.000.000,00", { reverse: true, maxlength: false });
+                            $("#UnidadeSigla").addClass("form-control");
+                            $("textarea").attr('rows', 7);
+                            $("#submitServico").hide();
+
+                            $("#UnidadeSigla").change(function () {
+
+                                if ($("#colapsoUnidade").hasClass('in')) {
+                                    $('#expandeColapso').click();
+                                }
+
+                                if ($("#UnidadeSigla").val().length > 0) {
+                                    $("#expandeColapso").text("Editar Unidade");
+                                }
+                                else {
+                                    $("#expandeColapso").text("Nova Unidade");
+                                }
+                            });
+
+                            $("#submitFalso").click(function () {
+                                $("#Valor").val($("#Valor").val().replace(".", ""));
+                                $("#ValorDolar").val($("#ValorDolar").val().replace(".", ""));
+                                $("#submitServico").trigger('click');
+                            });
+
+                            $('.collapse').collapse();
+
+                            $("#expandeColapso").click(function () {
+                                if ($("#UnidadeSigla").val() != "") {
+                                    $.ajax({
+                                        url: '@Url.Action("EditColapso","Unidade")',
+                                        type: "GET",
+                                        data: { id: $("#UnidadeSigla").val() },
+                                        success: function (data) {
+                                            $("#conteudoColapso").html(data);
+                                            $("#conteudoColapso").find("#submit").hide();
+                                            $("#submitColapso").show();
+                                            $("#submitColapso").click(function () {
+                                                $.ajax({
+                                                    type: "GET",
+                                                    url: '@Url.Content("~/Unidade/EditUnidadeModal/")',
+                                                    data: { unidadeSigla: $("#UnidadeSigla").val(), nome: $("#conteudoColapso").find("#Nome").val() },
+                                                    success: function (msg) {
+                                                        $.ajax({
+                                                            url: '@Url.Action("RecuperaUnidadePorId","Unidade")',
+                                                            type: "GET",
+                                                            data: { unidadeID: $("#UnidadeSigla").val() },
+                                                            success: function (data) {
+                                                                $('#expandeColapso').click();
+                                                                carregaUnidade();
+                                                            }
+                                                        })
+                                                    }
+                                                });
+                                            });
+
+                                            function carregaUnidade() {
+                                                $.ajax({
+                                                    url: '@Url.Action("RecuperaUnidadePorId","Unidade")',
+                                                    type: "GET",
+                                                    data: { unidadeID: $("#UnidadeSigla").val() },
+                                                    success: function (data) {
+                                                        if (data.length > 0) {
+                                                            $('#UnidadeSigla option[value="' + $("#UnidadeSigla").val() + '"]').text(data);
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    })
+                                }
+                                else {
+
+                                    $.ajax({
+                                        url: '@Url.Action("CreateColapso","Unidade")',
+                                        type: "GET",
+                                        success: function (data) {
+                                            $("#conteudoColapso").html(data);
+                                            $("#conteudoColapso").find("#submit").hide();
+                                            $("#submitColapso").show();
+                                            $("#conteudoColapso").find("#UnidadeSigla").bind('keyup', function () {
+                                                $(this).val($(this).val().toUpperCase());
+                                                var regex = /^[a-zA-Z ]*$/;
+                                                if (regex.test($(this).val())) {
+                                                    if ($(this).val().length >= 2) {
+                                                        $(this).val($(this).val().substring(0, 2));
+                                                    }
+                                                }
+                                                else {
+                                                    $(this).val($(this).val().substring(0, $(this).val().length - 1));
+                                                }
+                                            });
+
+                                            $("#submitColapso").click(function () {
+                                                $.ajax({
+                                                    type: "GET",
+                                                    url: '@Url.Content("~/Unidade/CriarUnidadeColapso/")',
+                                                    data: { unidadeSigla: $("#conteudoColapso").find("#UnidadeSigla").val(), unidadeNome: $("#conteudoColapso").find("#Nome").val() },
+                                                    success: function (id) {
+                                                        $.ajax({
+                                                            url: '@Url.Action("RecuperaUnidadePorId","Unidade")',
+                                                            type: "GET",
+                                                            data: { unidadeID: id },
+                                                            success: function (data) {
+                                                                $('#expandeColapso').click();
+                                                                $("select#UnidadeSigla").append($('<option></option>').val(id).text(data));
+                                                            }
+                                                        })
+                                                    }
+                                                });
+                                            });
+
+                                            function carregaUnidade() {
+                                                $.ajax({
+                                                    url: '@Url.Action("RecuperaUnidadePorId","Unidade")',
+                                                    type: "GET",
+                                                    data: { unidadeID: $("#UnidadeSigla").val() },
+                                                    success: function (data) {
+                                                        if (data.length > 0) {
+                                                            $('#UnidadeSigla option[value="' + $("#UnidadeSigla").val() + '"]').text(data);
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    })
+                                }
+                            });
+                        }
+                    })
+                }
+            });
+            // Fim do auto complete do Serviço
+        });
+    </script>
+}

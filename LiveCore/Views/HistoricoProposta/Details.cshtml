@@ -1,0 +1,43 @@
+﻿@model LiveCore.Models.HistoricoProposta
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HistoricoProposta</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DataCriacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataCriacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PropostaID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PropostaID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.HistoricoPropostaID }) |
+    <a href="@Url.Action("Details", "Proposta", new { id = Model.PropostaID })" title="Voltar"><i class="fa fa-arrow-left"></i></a>
+</p>

@@ -1,0 +1,67 @@
+﻿@model LiveCore.Models.Usuario
+
+@{
+    ViewBag.Title = "Novo Usuário";
+    Layout = "";
+}
+
+@using (Html.BeginForm("Create", "Usuario", new { id = @ViewBag.Contato }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div >
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Login, new { @class = "control-label col-md-4" })
+            <div class="col-xs-4">
+                @Html.TextBoxFor(model => model.Login, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Login)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Senha, new { @class = "control-label col-md-4" })
+            <div class="col-xs-4">
+                @Html.PasswordFor(model => model.Senha, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Senha)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConfirmSenha, new { @class = "control-label col-md-4" })
+            <div class="col-xs-4">
+                @Html.PasswordFor(model => model.ConfirmSenha, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ConfirmSenha)
+            </div>
+        </div>
+
+        <div class="form-group hidden">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" id="submit" class="btn btn-default" hidden />
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    
+    $(document).ready(function () {
+
+        $("#ConfirmSenha").blur(function () {
+            if($("#ConfirmSenha").val() != "" && $("#Senha").val() != ""){
+                if ($("#ConfirmSenha").val() != $("#Senha").val()) {
+                    
+                }
+            }
+
+        });
+
+    });
+
+</script>
+}

@@ -1,0 +1,111 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<LiveCore.Models.Servico>
+
+@{
+    ViewBag.Title = "Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Serviço</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" id="create" href="@Url.Action("Create", "Servico")"><i class="fa fa-plus"></i> Novo Serviço</a>
+    </div>
+    <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            @Html.TextBox("nomeSearch", ViewBag.CurrentFilter as string, new { placeholder = "Serviço" })
+        </div>
+        <button type="submit" class="btn btn-primary navbar-btn"><i class="fa fa-search"></i> Buscar</button>
+    </form>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert"></div>
+
+<div class="panel panel-default">
+    <table class="table">
+        <tr class="panel-heading cabecalho">
+
+            <th>
+                @Html.ActionLink("Serviço", "Index", new { ordem = ViewBag.NomeSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Descrição", "Index", new { ordem = ViewBag.DescSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Unidade", "Index", new { ordem = ViewBag.UnidadeSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Valor", "Index", new { ordem = ViewBag.ValorSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="trselect">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unidade.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Valor)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.ServicoID)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Servico", new { id = item.ServicoID })" title="Editar"><i class="fa fa-edit"></i></a>
+                    <a href="@Url.Action("Details", "Servico", new { id = item.ServicoID })" title="Detalhes"><i class="fa fa-list"></i></a>
+                    <a href="@Url.Action("Delete", "Servico", new { id = item.ServicoID })" title="Deletar"><i class="fa fa-trash-o"></i></a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, ordem = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(document).tooltip();
+            $("#alerta").hide();
+            $(".pagination").addClass("pagination-sm")
+
+            $(".trselect").click(function () {
+                var id = $(this).find("#item_ServicoID").val();
+                window.location.href = "/Servico/Details/" + id;
+            });
+        });
+
+    </script>
+}

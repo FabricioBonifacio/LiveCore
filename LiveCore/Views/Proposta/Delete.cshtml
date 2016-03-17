@@ -1,0 +1,21 @@
+﻿@model LiveCore.Models.Proposta
+
+@{
+    ViewBag.Title = "Deletar Proposta";
+    Layout = "";
+}
+
+
+<div>
+    Você tem certeza que deseja deletar a Proposta @Html.DisplayFor(model => model.IdentProposta)?
+    @Html.HiddenFor(model => model.EntidadeID)
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" id="submit" hidden />
+        </div>
+    }
+</div>

@@ -1,0 +1,35 @@
+﻿@model LiveCore.Models.Entidade
+
+@{
+    ViewBag.Title = "Deletar Entidade";
+    Layout = "";
+}
+
+
+<div>
+    Você tem certeza que deseja deletar a Entidade @Html.DisplayFor(model => model.Nome)?
+    @Html.HiddenFor(model => model.EntidadeID)
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" id="submit" hidden />
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+        });
+
+    </script>
+
+}

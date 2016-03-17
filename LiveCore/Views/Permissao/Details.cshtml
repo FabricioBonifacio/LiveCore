@@ -1,0 +1,111 @@
+﻿@model LiveCore.Models.Permissao
+
+@{
+    ViewBag.Title = "Detalhes da Permissão";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="~/Permissao/Index">Permissão</a></li>
+    <li class="active">@Html.DisplayFor(model => model.Nome)</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "Permissao")"><i class="fa fa-plus"></i> Nova Permissão</a>
+
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="deletar" onclick="location.href = '#myModal'" data-toggle="modal" data-target="#myModal" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Deletar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li><a href="@Url.Action("Edit", "Permissao", new { id = Model.PermissaoID })"><i class="fa fa-pencil"></i> Editar</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro</div>
+
+<div class="form-horizontal">
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Nome)
+            @Html.HiddenFor(model => model.PermissaoID)
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div id="corpoModal" class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModal" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="deletarModal" class="btn btn-danger">Deletar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(document).tooltip();
+            if($('#alerta').html() == ''){
+                $("#alerta").hide();
+            }
+            else {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+
+            $("#deletar").click(function () {
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("Delete", "Permissao")',
+                    data: { id: $("#PermissaoID").val() },
+                    success: function (data) {
+                        $("#myModalLabel").html('Deletar Permissão');
+                        $("#corpoModal").html('');
+                        $("#corpoModal").append(data);
+                    }
+                });
+            });
+
+            $("#deletarModal").click(function () {
+                $("#submit").click();
+            });
+
+        });
+
+    </script>
+}

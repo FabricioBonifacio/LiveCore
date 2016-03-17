@@ -1,0 +1,156 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<LiveCore.Models.Proposta>
+
+@{
+    ViewBag.Title = "Proposta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Proposta</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "Proposta")"><i class="fa fa-plus"></i> Nova Proposta</a>
+    </div>
+    <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            @Html.TextBox("nomeSearch", ViewBag.CurrentFilterNome as string, new { placeholder = "Entidade" })
+        </div>
+        <div class="form-group">
+            @Html.TextBox("comercialSearch", ViewBag.CurrentFilterComercial as string, new { placeholder = "Comercial" })
+        </div>
+
+        <div class="form-group">
+            @Html.TextBox("dtValidadeInicioSearch", ViewBag.CurrentFilterDtValidadeInicio as string, new { placeholder = "Data de Validade Inicial" })
+        </div>
+        <div class="form-group">
+            @Html.TextBox("dtValidadeFinalSearch", ViewBag.CurrentFilterDtValidadeFinal as string, new { placeholder = "Data de Validade Final" })
+        </div>
+        <div class="form-group">
+            @Html.DropDownList("estagioSearch", new SelectList(ViewBag.Status, "Value", "Text"), "-- Selecione --", new { placeholder = "Estágio da Proposta" })
+        </div>
+
+        <button type="submit" class="btn btn-primary navbar-btn"><i class="fa fa-search"></i> Buscar</button>
+    </form>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro@ViewBag.Msg@ViewBag.Aviso</div>
+
+<div class="panel panel-default">
+
+    <table class="table">
+        <tr class="panel-heading cabecalho">
+            <th>
+                @Html.ActionLink("Entidade", "Index", new { ordem = ViewBag.NomeSortParm, currentFilter = ViewBag.CurrentFilterNome, currentFilterComercial = ViewBag.CurrentFilterComercial, currentFilterDtValidadeInicio = ViewBag.CurrentFilterDtValidadeInicio, currentFilterDtValidadeFinal = ViewBag.CurrentFilterDtValidadeFinal, currentFilterEstagio = ViewBag.CurrentFilterEstagio })
+            </th>
+            <th>
+                @Html.ActionLink("Comercial", "Index", new { ordem = ViewBag.ComercialSortParm, currentFilter = ViewBag.CurrentFilterNome, currentFilterComercial = ViewBag.CurrentFilterComercial, currentFilterDtValidadeInicio = ViewBag.CurrentFilterDtValidadeInicio, currentFilterDtValidadeFinal = ViewBag.CurrentFilterDtValidadeFinal, currentFilterEstagio = ViewBag.CurrentFilterEstagio })
+            </th>
+            <th>
+                @Html.ActionLink("Estágio da Proposta", "Index", new { ordem = ViewBag.StatusSortParm, currentFilter = ViewBag.CurrentFilterNome, currentFilterComercial = ViewBag.CurrentFilterComercial, currentFilterDtValidadeInicio = ViewBag.CurrentFilterDtValidadeInicio, currentFilterDtValidadeFinal = ViewBag.CurrentFilterDtValidadeFinal, currentFilterEstagio = ViewBag.CurrentFilterEstagio })
+            </th>
+            <th>
+                @Html.ActionLink("Valor Total", "Index", new { ordem = ViewBag.ValorTotalSortParm, currentFilter = ViewBag.CurrentFilterNome, currentFilterComercial = ViewBag.CurrentFilterComercial, currentFilterDtValidadeInicio = ViewBag.CurrentFilterDtValidadeInicio, currentFilterDtValidadeFinal = ViewBag.CurrentFilterDtValidadeFinal, currentFilterEstagio = ViewBag.CurrentFilterEstagio })
+            </th>
+            <th>
+                @Html.ActionLink("Versão", "Index", new { ordem = ViewBag.VersaoSortParm, currentFilter = ViewBag.CurrentFilterNome, currentFilterComercial = ViewBag.CurrentFilterComercial, currentFilterDtValidadeInicio = ViewBag.CurrentFilterDtValidadeInicio, currentFilterDtValidadeFinal = ViewBag.CurrentFilterDtValidadeFinal, currentFilterEstagio = ViewBag.CurrentFilterEstagio })
+            </th>
+            <th>
+                @Html.ActionLink("Validade", "Index", new { ordem = ViewBag.ValidadeSortParm, currentFilter = ViewBag.CurrentFilterNome, currentFilterComercial = ViewBag.CurrentFilterComercial, currentFilterDtValidadeInicio = ViewBag.CurrentFilterDtValidadeInicio, currentFilterDtValidadeFinal = ViewBag.CurrentFilterDtValidadeFinal, currentFilterEstagio = ViewBag.CurrentFilterEstagio })
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+
+            <tr class="trselect">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Entidade.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContatoLive.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ValorTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Versao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Validade)
+                </td>
+                <td>@Html.HiddenFor(modelItem => item.PropostaID)</td>
+                
+            </tr>
+        }
+
+    </table>
+</div>
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, ordem = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilterNome, currentFilterLogin = ViewBag.CurrentFilterLogin, currentFilterDtRegistroInicio = ViewBag.CurrentFilterDtRegistroInicio, currentFilterDtRegistroFinal = ViewBag.CurrentFilterDtRegistroFinal, currentFilterEstagio = ViewBag.CurrentFilterEstagio }))
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(document).tooltip();
+            $(".pagination").addClass("pagination-sm");
+            $("#estagioSearch").addClass("form-control");
+
+            $(".trselect").click(function () {
+                var id = $(this).find("#item_PropostaID").val();
+                window.location.href = "/Proposta/Details/" + id;
+            });
+
+            $("#dtValidadeInicioSearch").datepicker({ dateFormat: 'dd/mm/yy' });
+            $("#dtValidadeInicioSearch").mask('00/00/0000');
+            $("#dtValidadeFinalSearch").datepicker({ dateFormat: 'dd/mm/yy' });
+            $("#dtValidadeFinalSearch").mask('00/00/0000');
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else if ('@ViewBag.Aviso'.length > 0) {
+                $("#alerta").addClass("alert-warning");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Aviso!</strong> @ViewBag.Aviso');
+                $("#alerta").show();
+            }
+            else if ('@ViewBag.Erro'.length > 0) {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+            else if ('@ViewBag.Msg'.length > 0) {
+                $("#alerta").addClass("alert-success");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>@ViewBag.Msg</strong>');
+                $("#alerta").show();
+            }
+
+        });
+
+    </script>
+}

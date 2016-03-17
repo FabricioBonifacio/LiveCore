@@ -1,0 +1,145 @@
+﻿@model LiveCore.Models.PropostaImpressa
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PropostaImpressa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Introducao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Introducao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcordoConfiab)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcordoConfiab)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Objetivos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Objetivos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConfigSolucao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConfigSolucao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EscopoProjeto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EscopoProjeto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Metodologia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Metodologia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Investimentos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Investimentos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cond_Valores)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cond_Valores)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cond_Impostos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cond_Impostos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cond_Frete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cond_Frete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cond_Faturamento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cond_Faturamento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cond_Validade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cond_Validade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cond_PrazoEntrega)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cond_PrazoEntrega)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cond_Despesas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cond_Despesas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TermoAceite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TermoAceite)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

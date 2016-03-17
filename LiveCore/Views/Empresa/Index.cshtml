@@ -1,0 +1,101 @@
+﻿@model IEnumerable<LiveCore.Models.Empresa>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Empresa</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" id="create" href="@Url.Action("Create", "Empresa")"><i class="fa fa-plus"></i> Nova Empresa</a>
+    </div>
+    <form class="navbar-form navbar-right" role="search">
+        <!--Colocar aqui os campos de pesquisa-->
+    </form>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert"></div>
+
+<div class="panel panel-default">
+    <table class="table">
+        <tr class="panel-heading cabecalho">
+            <th>
+                Empresa
+            </th>
+            <th>
+                Cidade
+            </th>
+            <th>
+                UF
+            </th>
+            <th>
+                Telefone
+            </th>
+            <th>
+                E-mail
+            </th>
+            <th>
+                CNPJ
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="trselect">
+                <td>
+                    @Html.DisplayFor(modelItem => item.RazaoSocial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cidade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UF)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CNPJ)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.EmpresaID)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(document).tooltip();
+            $("#alerta").hide();
+        });
+
+    </script>
+}

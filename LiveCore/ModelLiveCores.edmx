@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LIVECOREModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AREAESCOPO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRICAO" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="EQUIPAMENTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRICAO" Type="nvarchar" MaxLength="200" />
+          <Property Name="CODPATRIMONIO" Type="int" />
+          <Property Name="UNIDADE" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="MARCA" Type="nvarchar" MaxLength="30" />
+          <Property Name="REFERENCIA" Type="nvarchar" MaxLength="20" />
+          <Property Name="FABRICANTE" Type="nvarchar" MaxLength="50" />
+          <Property Name="NCM" Type="int" />
+          <Property Name="PRECOCUSTO" Type="money" Nullable="false" />
+          <Property Name="PRECOVENDA" Type="money" Nullable="false" />
+          <Property Name="VALORALUGUEL" Type="money" />
+          <Property Name="DTVENCGARANTIA" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SERVICO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRICAO" Type="nvarchar" MaxLength="200" />
+          <Property Name="UNIDADE" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="VALOR" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="STATUS">
+          <Key>
+            <PropertyRef Name="SIGLA" />
+          </Key>
+          <Property Name="SIGLA" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPOCONTRATO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRICAO" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="UNIDADE">
+          <Key>
+            <PropertyRef Name="SIGLA" />
+          </Key>
+          <Property Name="SIGLA" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LOGIN" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PASSWORD" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DTREGISTRO" Type="date" Nullable="false" />
+          <Property Name="TELEFONE" Type="nvarchar" MaxLength="14" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EQUIPAMENTO_UNIDADE">
+          <End Role="UNIDADE" Type="Self.UNIDADE" Multiplicity="1" />
+          <End Role="EQUIPAMENTO" Type="Self.EQUIPAMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UNIDADE">
+              <PropertyRef Name="SIGLA" />
+            </Principal>
+            <Dependent Role="EQUIPAMENTO">
+              <PropertyRef Name="UNIDADE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LIVECOREModelStoreContainer">
+          <EntitySet Name="AREAESCOPO" EntityType="Self.AREAESCOPO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EQUIPAMENTO" EntityType="Self.EQUIPAMENTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SERVICO" EntityType="Self.SERVICO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="STATUS" EntityType="Self.STATUS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPOCONTRATO" EntityType="Self.TIPOCONTRATO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UNIDADE" EntityType="Self.UNIDADE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EQUIPAMENTO_UNIDADE" Association="Self.FK_EQUIPAMENTO_UNIDADE">
+            <End Role="UNIDADE" EntitySet="UNIDADE" />
+            <End Role="EQUIPAMENTO" EntitySet="EQUIPAMENTO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LIVECOREModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LIVECOREEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="STATUS" EntityType="LIVECOREModel.STATUS" />
+          <EntitySet Name="TIPOCONTRATO" EntityType="LIVECOREModel.TIPOCONTRATO" />
+          <EntitySet Name="UNIDADE" EntityType="LIVECOREModel.UNIDADE" />
+          <EntitySet Name="SERVICOes" EntityType="LIVECOREModel.SERVICO" />
+          <AssociationSet Name="FK_SERVICO_UNIDADE" Association="LIVECOREModel.FK_SERVICO_UNIDADE">
+            <End Role="UNIDADE" EntitySet="UNIDADE" />
+            <End Role="SERVICO" EntitySet="SERVICOes" />
+          </AssociationSet>
+          <EntitySet Name="AREAESCOPO" EntityType="LIVECOREModel.AREAESCOPO" />
+          <EntitySet Name="EQUIPAMENTOes" EntityType="LIVECOREModel.EQUIPAMENTO" />
+          <AssociationSet Name="FK_EQUIPAMENTO_UNIDADE" Association="LIVECOREModel.FK_EQUIPAMENTO_UNIDADE">
+            <End Role="UNIDADE" EntitySet="UNIDADE" />
+            <End Role="EQUIPAMENTO" EntitySet="EQUIPAMENTOes" />
+          </AssociationSet>
+          <EntitySet Name="USUARIOs" EntityType="LIVECOREModel.USUARIO" />
+        </EntityContainer>
+        <EntityType Name="STATUS">
+          <Key>
+            <PropertyRef Name="SIGLA" />
+          </Key>
+          <Property Name="SIGLA" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TIPOCONTRATO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRICAO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UNIDADE">
+          <Key>
+            <PropertyRef Name="SIGLA" />
+          </Key>
+          <Property Name="SIGLA" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SERVICOes" Relationship="LIVECOREModel.FK_SERVICO_UNIDADE" FromRole="UNIDADE" ToRole="SERVICO" />
+          <NavigationProperty Name="EQUIPAMENTOes" Relationship="LIVECOREModel.FK_EQUIPAMENTO_UNIDADE" FromRole="UNIDADE" ToRole="EQUIPAMENTO" />
+        </EntityType>
+        <EntityType Name="SERVICO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRICAO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UNIDADE" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="VALOR" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="UNIDADE1" Relationship="LIVECOREModel.FK_SERVICO_UNIDADE" FromRole="SERVICO" ToRole="UNIDADE" />
+        </EntityType>
+        <Association Name="FK_SERVICO_UNIDADE">
+          <End Type="LIVECOREModel.UNIDADE" Role="UNIDADE" Multiplicity="1" />
+          <End Type="LIVECOREModel.SERVICO" Role="SERVICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UNIDADE">
+              <PropertyRef Name="SIGLA" />
+            </Principal>
+            <Dependent Role="SERVICO">
+              <PropertyRef Name="UNIDADE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AREAESCOPO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRICAO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EQUIPAMENTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRICAO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CODPATRIMONIO" Type="Int32" />
+          <Property Name="UNIDADE" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="MARCA" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="REFERENCIA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FABRICANTE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NCM" Type="Int32" />
+          <Property Name="PRECOCUSTO" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="PRECOVENDA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="VALORALUGUEL" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DTVENCGARANTIA" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="UNIDADE1" Relationship="LIVECOREModel.FK_EQUIPAMENTO_UNIDADE" FromRole="EQUIPAMENTO" ToRole="UNIDADE" />
+        </EntityType>
+        <Association Name="FK_EQUIPAMENTO_UNIDADE">
+          <End Type="LIVECOREModel.UNIDADE" Role="UNIDADE" Multiplicity="1" />
+          <End Type="LIVECOREModel.EQUIPAMENTO" Role="EQUIPAMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UNIDADE">
+              <PropertyRef Name="SIGLA" />
+            </Principal>
+            <Dependent Role="EQUIPAMENTO">
+              <PropertyRef Name="UNIDADE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LOGIN" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PASSWORD" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DTREGISTRO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TELEFONE" Type="String" MaxLength="14" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LIVECOREModelStoreContainer" CdmEntityContainer="LIVECOREEntities">
+          <EntitySetMapping Name="STATUS">
+            <EntityTypeMapping TypeName="LIVECOREModel.STATUS">
+              <MappingFragment StoreEntitySet="STATUS">
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPOCONTRATO">
+            <EntityTypeMapping TypeName="LIVECOREModel.TIPOCONTRATO">
+              <MappingFragment StoreEntitySet="TIPOCONTRATO">
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UNIDADE">
+            <EntityTypeMapping TypeName="LIVECOREModel.UNIDADE">
+              <MappingFragment StoreEntitySet="UNIDADE">
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="SIGLA" ColumnName="SIGLA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SERVICOes">
+            <EntityTypeMapping TypeName="LIVECOREModel.SERVICO">
+              <MappingFragment StoreEntitySet="SERVICO">
+                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+                <ScalarProperty Name="UNIDADE" ColumnName="UNIDADE" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AREAESCOPO">
+            <EntityTypeMapping TypeName="LIVECOREModel.AREAESCOPO">
+              <MappingFragment StoreEntitySet="AREAESCOPO">
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EQUIPAMENTOes">
+            <EntityTypeMapping TypeName="LIVECOREModel.EQUIPAMENTO">
+              <MappingFragment StoreEntitySet="EQUIPAMENTO">
+                <ScalarProperty Name="DTVENCGARANTIA" ColumnName="DTVENCGARANTIA" />
+                <ScalarProperty Name="VALORALUGUEL" ColumnName="VALORALUGUEL" />
+                <ScalarProperty Name="PRECOVENDA" ColumnName="PRECOVENDA" />
+                <ScalarProperty Name="PRECOCUSTO" ColumnName="PRECOCUSTO" />
+                <ScalarProperty Name="NCM" ColumnName="NCM" />
+                <ScalarProperty Name="FABRICANTE" ColumnName="FABRICANTE" />
+                <ScalarProperty Name="REFERENCIA" ColumnName="REFERENCIA" />
+                <ScalarProperty Name="MARCA" ColumnName="MARCA" />
+                <ScalarProperty Name="UNIDADE" ColumnName="UNIDADE" />
+                <ScalarProperty Name="CODPATRIMONIO" ColumnName="CODPATRIMONIO" />
+                <ScalarProperty Name="DESCRICAO" ColumnName="DESCRICAO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOs">
+            <EntityTypeMapping TypeName="LIVECOREModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="TELEFONE" ColumnName="TELEFONE" />
+                <ScalarProperty Name="DTREGISTRO" ColumnName="DTREGISTRO" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

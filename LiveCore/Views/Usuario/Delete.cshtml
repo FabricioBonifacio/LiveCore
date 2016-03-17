@@ -1,0 +1,44 @@
+﻿@model LiveCore.Models.Usuario
+
+@{
+    ViewBag.Title = "Deletar Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Deletar Usuário - @Html.DisplayFor(model => model.Login)?</h2>
+
+<h3>Você tem certeza que deseja deletar o Usuário @Html.DisplayFor(model => model.Login)?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Senha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Senha)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" class="btn btn-default" /> |
+        </div>
+    }
+</div>
+<div>
+    <p>
+        <a href="@Url.Action("Index", "Usuario")" title="Voltar"><i class="fa fa-arrow-left"></i></a>
+    </p>
+</div>

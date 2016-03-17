@@ -1,0 +1,165 @@
+﻿@model LiveCore.Models.Contato
+
+@{
+    ViewBag.Title = "Editar Contato";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    @if (ViewBag.origem != null && (Convert.ToInt32(ViewBag.origem)) > 0)
+    {
+        <li><a href="~/Contato/Selecao/@ViewBag.origem">Seleção</a></li>
+    }
+    else
+    {
+        <li><a href="~/Contato/Index">Contato</a></li>
+    }
+    <li class="active">@Html.DisplayFor(model => model.Nome)</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "Contato")"><i class="fa fa-plus"></i> Novo Contato</a>
+    </div>
+    <div class="navbar-form navbar-right">
+        @if (ViewBag.origem != null && (Convert.ToInt32(ViewBag.origem)) > 0)
+        {
+            <button id="cancelar" onclick="location.href = '@Url.Action("Selecao", "Contato", new { id = ViewBag.origem })'" class="btn btn-danger navbar-btn">
+                <span class="fa fa-times"></span> Cancelar
+            </button>
+        }
+        else
+        {
+            <button id="cancelar" onclick="location.href = '@Url.Action("Index", "Contato")'" class="btn btn-danger navbar-btn">
+                <span class="fa fa-times"></span> Cancelar
+            </button>
+        }
+        <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+            <span class="fa fa-save"></span> Salvar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>@Model.Nome</h4></div>
+    <div class="panel-body">
+        @using (Html.BeginForm("Edit", "Contato", new { orig = ViewBag.origem }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.ContatoID)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.Nome, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Nome)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Telefone, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBoxFor(model => model.Telefone, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Telefone)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        @Html.HiddenFor(model => model.DtRegistro)
+                        @Html.ValidationMessageFor(model => model.DtRegistro)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Hidden("origem")
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Salvar" id="submit" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            $("#DtRegistro").datepicker({ dateFormat: 'dd/mm/yy' });
+            $('#DtRegistro').mask('00/00/0000')
+            $('#Telefone').mask('(00) 0000-0000')
+
+            $(document).tooltip();
+
+            jQuery.validator.addMethod(
+                'date',
+                function (value, element, params) {
+                    if (this.optional(element)) {
+                        return true;
+                    };
+                    var result = false;
+                    try {
+                        $.datepicker.parseDate('dd/mm/yy', value);
+                        result = true;
+                    } catch (err) {
+                        result = false;
+                    }
+                    return result;
+                },
+                ''
+            );
+
+            $("#submit").hide();
+
+            $("#submitFalso").click(function () {
+                $("#submit").trigger('click');
+            });
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+        });
+
+    </script>
+}

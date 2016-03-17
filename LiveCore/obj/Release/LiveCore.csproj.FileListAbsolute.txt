@@ -1,0 +1,3 @@
+C:\Users\fabricio.viana\Documents\Visual Studio 2013\Projects\LiveCore\LiveCore\obj\Release\LiveCore.csprojResolveAssemblyReference.cache
+C:\Users\fabricio.viana\Documents\Visual Studio 2013\Projects\LiveCore\LiveCore\obj\Release\RdlCompile.cache
+C:\Users\fabricio.viana\Documents\Visual Studio 2013\Projects\LiveCore\LiveCore\obj\Release\RdlCompile.compiled

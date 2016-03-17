@@ -1,0 +1,38 @@
+﻿@model IEnumerable<LiveCore.Models.Permissao>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "";
+
+    ViewData["NaoExiste"] = "Não existem papéis do contato cadastrados.";
+}
+<style>
+    .table tbody > tr > td{
+        border-top: none !important;
+    }
+</style>
+
+<table>
+    @if (Model.Count() == 0)
+    {
+        <tr>
+
+            <td>
+                @ViewData["NaoExiste"]
+            </td>
+
+        </tr>
+
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="checkboxSel">@Html.CheckBox("Vincular", false, new { @id = @item.PermissaoID })</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<LiveCore.Models.PropostaImpressa>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Introducao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AcordoConfiab)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Objetivos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConfigSolucao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EscopoProjeto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Metodologia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Investimentos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cond_Valores)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cond_Impostos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cond_Frete)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cond_Faturamento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cond_Validade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cond_PrazoEntrega)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cond_Despesas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TermoAceite)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Introducao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AcordoConfiab)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Objetivos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConfigSolucao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EscopoProjeto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Metodologia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Investimentos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cond_Valores)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cond_Impostos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cond_Frete)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cond_Faturamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cond_Validade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cond_PrazoEntrega)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cond_Despesas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TermoAceite)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PropostaImpressaID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PropostaImpressaID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PropostaImpressaID })
+        </td>
+    </tr>
+}
+
+</table>

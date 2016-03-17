@@ -1,0 +1,221 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<LiveCore.Models.Contato>
+
+@{
+    ViewBag.Title = "Seleção de Contatos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    @if(ViewData["Remetente"].Equals("Entidade"))
+    {
+        <li><a href="~/Entidade/Index">Entidade</a></li>
+        <li><a href="~/Entidade/Details/@ViewData["Entidade"]">@ViewData["EntidadeNome"]</a></li>
+        <li><a href="~/Entidade/Contatos/@ViewData["Entidade"]">Contatos</a></li>
+        <li class="active">Seleção de Contatos</li>
+    }
+    else if(ViewData["Remetente"].Equals("Empresa"))
+    {
+        <li><a href="~/Entidade/Index">Entidade</a></li>
+        <li><a href="~/Empresa/Details/@ViewData["Entidade"]">@ViewData["EntidadeNome"]</a></li>
+        <li><a href="~/Empresa/Colaboradores/@ViewData["Entidade"]">Colaboradores</a></li>
+        <li class="active">Seleção de Colaboradores</li>
+    }
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "Contato")"><i class="fa fa-plus"></i> Novo Contato</a>
+    </div>
+    <div class="navbar-form navbar-right">
+        @if(ViewData["Remetente"].Equals("Entidade"))
+        {   <button id="cancelar" onclick="location.href = '@Url.Action("Contatos", "Entidade", new { id = ViewData["Entidade"] })'" class="btn btn-danger navbar-btn">
+                <span class="fa fa-times"></span> Cancelar
+            </button>
+            <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+                <span class="fa fa-save"></span> Vincular Contatos
+            </button>
+        }
+        else if (ViewData["Remetente"].Equals("Empresa"))
+        {   <button id="cancelar" onclick="location.href = '@Url.Action("Colaboradores", "Empresa", new { id = ViewData["Entidade"] })'" class="btn btn-danger navbar-btn">
+                <span class="fa fa-times"></span> Cancelar
+            </button>
+            <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+                <span class="fa fa-save"></span> Vincular Colaboradores
+            </button>
+        }
+    </div>
+    <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            @Html.TextBox("nomeSearch", ViewBag.CurrentFilterNome as string, new { placeholder = "Nome" })
+        </div>
+        
+        <button id="searchSelecao" type="button" class="btn btn-primary navbar-btn"><i class="fa fa-search"></i> Buscar</button>
+    </form>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro</div>
+<div id="selecionados" hidden>@ViewData["Selecionados"]</div>
+
+<div class="panel panel-default">
+    <table class="table">
+        <tr class="panel-heading cabecalho">
+            <th style="width: 3%"></th>
+            <th style="width: 40%">
+                @Html.ActionLink("Nome", "Selecao", new { id = Convert.ToInt32(ViewData["Entidade"]), remetente = ViewData["Remetente"], ordem = ViewBag.NomeSortParm, currentFilter = ViewBag.CurrentFilterNome })
+            </th>
+            <th style="width: 20%">
+                Telefone
+            </th>
+            <th style="width: 17%">
+                E-mail
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="trselect">
+                <td>
+                    @Html.CheckBox("Vincular")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.ContatoID)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@Html.PagedListPager(Model, page => Url.Action("Selecao",
+                            new { id = Convert.ToInt32(ViewData["Entidade"]), remetente = ViewData["Remetente"], page, ordem = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilterNome, selecionados = ViewData["Selecionados"] }))
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+    $(document).ready(function () {
+
+        if ($("#selecionados").text() != "") {
+            var selecao = $("#selecionados").text().split(",");
+            $(".trselect").each(function () {
+                for (i = 0; i < selecao.length ; i++) {
+                    if ($(this).find("#item_ContatoID").val() == selecao[i]) {
+                        $(this).find("#Vincular").prop('checked', true);
+                    }
+                }
+
+            });
+        }
+
+        $(".pagination").addClass("pagination-sm");
+
+        if ($('#alerta').html() == '') {
+            $("#alerta").hide();
+        }
+        else {
+            $("#alerta").addClass("alert-danger");
+            $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+            $("#alerta").show();
+        }
+
+        $(".trselect").click(function () {
+            var contatoId = $(this).find("#item_ContatoID").prop('value');
+
+            if (!$(this).find("#Vincular").prop('checked')) {
+                var id = $(this).find("#Vincular").prop('checked', true);
+                selecaoHelp(contatoId, "");
+            }
+            else {
+                var id = $(this).find("#Vincular").prop('checked', false);
+                selecaoHelp("", contatoId);
+            }
+        });
+
+        $("#submitFalso").click(function () {
+            if ($("#selecionados").text() != "") {
+                vincularContato($("#selecionados").text());
+            }
+            else {
+                $("#alerta").addClass("alert-warning");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Aviso!</strong> Nenhum contato foi selecionado.');
+                $("#alerta").show();
+            }
+        });
+
+        function selecaoHelp(marcado, desmarcado) {
+            var array = $("#selecionados").text();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Content("~/Contato/SelecaoHelp/")',
+                data: { selecao: array, contatoMarcado: marcado, contatoDesmarcado: desmarcado },
+                success: function (data) {
+                    if (data == null) {
+
+                    }
+                    else {
+                        $("#selecionados").text(data);
+                    }
+                }
+            });
+        }
+
+        function vincularContato(array) {
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Content("~/Contato/Vincular/")',
+                data: { idArray: array, remetente: '@ViewData["Remetente"]' },
+                success: function (data) {
+                    if (data == "") {
+                        if ('@ViewData["Remetente"]' == "Entidade") {
+                            window.location = "/Entidade/Contatos/" + '@ViewData["Entidade"]';
+                        }
+                        else if ('@ViewData["Remetente"]' == "Empresa") {
+                            window.location = "/Empresa/Colaboradores/" + '@ViewData["Entidade"]';
+                        }
+                    }
+                    else {
+                        $("#alerta").addClass("alert-danger");
+                        $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong>' + data);
+                        $("#alerta").show();
+                    }
+                }
+            });
+        }
+
+        $("#searchSelecao").click(function () {
+            window.location = "/Contato/Selecao/" + '@ViewData["Entidade"]' + "?remetente=" + '@ViewData["Remetente"]' + "&nomeSearch=" + $("#nomeSearch").val() + "&selecionados=" + $("#selecionados").text();
+        });
+
+    });
+
+    </script>
+}

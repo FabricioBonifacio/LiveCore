@@ -1,0 +1,119 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <ul class="nav navbar-nav">
+        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+        @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Proposta"))
+            {
+                <li>@Html.ActionLink("Proposta", "Index", "Proposta")</li>
+            }
+        }
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cadastros <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Área de Escopo"))
+                    {
+                        <li>@Html.ActionLink("Área de Escopo", "Index", "AreaEscopo")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Equipamento"))
+                    {
+                        <li>@Html.ActionLink("Equipamento", "Index", "Equipamento")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Estágio da Proposta"))
+                    {
+                        <li>@Html.ActionLink("Estágio da Proposta", "Index", "Status")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Papel da Entidade"))
+                    {
+                        <li>@Html.ActionLink("Papel", "Index", "Papel")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Papel do Contato"))
+                    {
+                        <li>@Html.ActionLink("Papel do Contato", "Index", "PapelContato")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Serviço"))
+                    {
+                        <li>@Html.ActionLink("Serviço", "Index", "Servico")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Tipo de Contrato"))
+                    {
+                        <li>@Html.ActionLink("Tipo de Contrato", "Index", "TipoContrato")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Unidade"))
+                    {
+                        <li>@Html.ActionLink("Unidade", "Index", "Unidade")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Contato") ||
+                    LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Entidade"))
+                    {    
+                        <li class="divider"></li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Contato"))
+                    {
+                        <li>@Html.ActionLink("Contato", "Index", "Contato")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Entidade"))
+                    {
+                        <li>@Html.ActionLink("Entidade", "Index", "Entidade")</li>
+                    }
+                }
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configurações <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Configuração de E-mail"))
+                    {
+                        <li>@Html.ActionLink("Configuração SMTP", "Index", "EmailConfig")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Configuração do Relatório da Proposta"))
+                    {
+                        <li>@Html.ActionLink("Configuração Proposta Padrão", "Index", "RelatorioProposta")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Empresa"))
+                    {
+                        <li>@Html.ActionLink("Empresa", "Index", "Empresa")</li>
+                    }
+                }
+                @{if (LiveCore.Repositories.UsuarioRepositorio.ExistePermissao("Permissão"))
+                    {
+                        <li>@Html.ActionLink("Permissão", "Index", "Permissao")</li>
+                    }
+                }
+            </ul>
+        </li>
+
+    </ul>
+    
+    //using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Usuario", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+    
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("Bem vindao (a) " + User.Identity.GetUserName() + "!", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i> Sair</a></li>
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <!--<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>-->
+        <!--<li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>-->
+    </ul>
+}

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<LiveCore.Models.EmailConfig>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Host)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Porta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Senha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailDefaultTo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Host)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Porta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Login)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Senha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailDefaultTo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EmailConfigID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EmailConfigID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EmailConfigID })
+        </td>
+    </tr>
+}
+
+</table>

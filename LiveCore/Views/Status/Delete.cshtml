@@ -1,0 +1,35 @@
+﻿@model LiveCore.Models.Status
+
+@{
+    ViewBag.Title = "Deletar Status";
+    Layout = "";
+}
+
+
+<div>
+
+    Você tem certeza que deseja deletar o Estágio @Html.DisplayFor(model => model.Nome)?
+    @Html.HiddenFor(model => model.StatusSigla)
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" id="submit" hidden />
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#submit").hide();
+        });
+
+    </script>
+
+}

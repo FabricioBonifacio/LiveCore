@@ -1,0 +1,361 @@
+﻿@model LiveCore.Models.Equipamento
+
+@{
+    ViewBag.Title = "Novo Equipamento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="Index">Equipamento</a></li>
+    <li class="active">Novo Equipamento</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "Equipamento")"><i class="fa fa-plus"></i> Novo Equipamento</a>
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="cancelar" onclick="location.href = '@Url.Action("Index", "Equipamento")'" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Cancelar
+        </button>
+        <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+            <span class="fa fa-save "></span> Salvar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Novo Equipamento</h4></div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-6">
+                        @Html.TextBoxFor(model => model.Nome, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Nome)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Descricao, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-6">
+                        @Html.TextAreaFor(model => model.Descricao, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Descricao)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NCM, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBoxFor(model => model.NCM, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.NCM)
+                    </div>
+                    @Html.LabelFor(model => model.UnidadeSigla, "Unidade", new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBox("UnidadeAutoComplete")
+                        @Html.HiddenFor(model => model.UnidadeSigla)
+                        @Html.ValidationMessageFor(model => model.UnidadeSigla)
+                    </div>
+                    <button type="button" id="completarUnidade" class="btn btn-primary btn-sm">Completar Cadastro</button>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Marca, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBoxFor(model => model.Marca, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Marca)
+                    </div>
+                    @Html.LabelFor(model => model.Referencia, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2" id="referenciaDiv">
+                        @Html.TextBoxFor(model => model.Referencia, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Referencia)
+                    </div>
+                    <div class="col-xs-2" id="erroDiv">
+                        Já existe um equipamento com esse Part Number.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PrecoCusto, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2" >
+                        @Html.TextBoxFor(model => model.PrecoCusto, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PrecoCusto)
+                    </div>
+                    @Html.LabelFor(model => model.PrecoCustoDolar, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBoxFor(model => model.PrecoCustoDolar, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PrecoCustoDolar)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PrecoVenda, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2" >
+                        @Html.TextBoxFor(model => model.PrecoVenda, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PrecoVenda)
+                    </div>
+                    @Html.LabelFor(model => model.PrecoVendaDolar, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBoxFor(model => model.PrecoVendaDolar, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PrecoVendaDolar)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ValorAluguel, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2" >
+                        @Html.TextBoxFor(model => model.ValorAluguel, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ValorAluguel)
+                    </div>
+                    @Html.LabelFor(model => model.ValorAluguelDolar, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBoxFor(model => model.ValorAluguelDolar, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ValorAluguelDolar)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Salvar" id="submit" />
+                    </div>
+                    <button id="chamarModal" onclick="location.href = '#myModal'" data-toggle="modal" data-target="#myModal" class="btn btn-danger navbar-btn"></button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div id="corpoModal" class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModal" class="btn btn-default" data-dismiss="modal">Não</button>
+                <button type="button" id="salvarModal" class="btn btn-primary">Sim</button>
+                <button type="button" id="editarModal" class="btn btn-primary">Salvar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $("#DtVencGarantia").datepicker({ dateFormat: 'dd/mm/yy' });
+            $("#DtVencGarantia").mask('00/00/0000');
+            $("#ValorAluguel").mask("000.000.000,00", { reverse: true, maxlength: false });
+            $("#PrecoVenda").mask("000.000.000,00", { reverse: true, maxlength: false });
+            $("#PrecoCusto").mask("000.000.000,00", { reverse: true, maxlength: false });
+            $("#ValorAluguel").val('0,00');
+            $("#PrecoVenda").val('0,00');
+            $("#PrecoCusto").val('0,00');
+            $("#ValorAluguelDolar").mask("000.000.000,00", { reverse: true, maxlength: false });
+            $("#PrecoVendaDolar").mask("000.000.000,00", { reverse: true, maxlength: false });
+            $("#PrecoCustoDolar").mask("000.000.000,00", { reverse: true, maxlength: false });
+            $("#ValorAluguelDolar").val('0,00');
+            $("#PrecoVendaDolar").val('0,00');
+            $("#PrecoCustoDolar").val('0,00');
+            $("#erroDiv").hide();
+
+            $(document).tooltip();
+
+            $("#UnidadeSigla").addClass("form-control");
+
+            jQuery.validator.addMethod(
+                'date',
+                function (value, element, params) {
+                    if (this.optional(element)) {
+                        return true;
+                    };
+                    var result = false;
+                    try {
+                        $.datepicker.parseDate('dd/mm/yy', value);
+                        result = true;
+                    } catch (err) {
+                        result = false;
+                    }
+                    return result;
+                },
+                ''
+            );
+
+            $("#Referencia").focusout(function () {
+                $("#erroDiv").hide();
+                $("#referenciaDiv").removeClass("has-error");
+                if ($(this).val().trim() != "") {
+                    $.ajax({
+                        url: '@Url.Action("VerificaPartNumber", "Equipamento")',
+                        type: "GET",
+                        data: { referencia: $("#Referencia").val(), equipamentoID: 0 },
+                        success: function (data) {
+                            if (data.length > 0) {
+                                $("#referenciaDiv").addClass("has-error");
+                                $("#erroDiv").show();
+                            }
+                        }
+                    })
+                }
+            });
+
+            $("#submit").hide();
+            $("#chamarModal").hide();
+
+            $("#submitFalso").click(function () {
+                if ($("#erroDiv").is(':hidden')) {
+                    $("#ValorAluguel").val($("#ValorAluguel").val().replace(".", ""));
+                    $("#PrecoVenda").val($("#PrecoVenda").val().replace(".", ""));
+                    $("#PrecoCusto").val($("#PrecoCusto").val().replace(".", ""));
+                    $("#ValorAluguelDolar").val($("#ValorAluguelDolar").val().replace(".", ""));
+                    $("#PrecoVendaDolar").val($("#PrecoVendaDolar").val().replace(".", ""));
+                    $("#PrecoCustoDolar").val($("#PrecoCustoDolar").val().replace(".", ""));
+                    $("#submit").trigger('click');
+                }
+            });
+
+            $("textarea").attr('rows', 7);
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+
+            $("#UnidadeAutoComplete").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteUnidade","Unidade")',
+                        type: "GET",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Nome, value: item.UnidadeSigla };
+                            }))
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+
+            $("#UnidadeAutoComplete").focusout(function () {
+                $("#editarModal").hide();
+                $("#salvarModal").show();
+                if ($(this).val().trim() != "" && $(this).val().trim().length > 1) {
+                    $.ajax({
+                        url: '@Url.Action("RecuperaUnidadePorNome","Unidade")',
+                        type: "GET",
+                        data: { unidade: $("#UnidadeAutoComplete").val() },
+                        success: function (data) {
+                            if (data.length > 0) {
+                                $("#UnidadeSigla").val(data);
+                            }
+                            else {
+                                $("#chamarModal").click();
+                                $("#myModalLabel").html('Criar Unidade');
+                                $("#corpoModal").html("Essa Unidade não existe. Caso queria criar agora, a sigla será " + $("#UnidadeAutoComplete").val().substring(0, 2) + ". Criar Agora?");
+
+                            }
+                        }
+                    })
+                }
+            });
+
+            $("#completarUnidade").click(function () {
+                $("#salvarModal").hide();
+                $("#editarModal").show();
+                if ($("#UnidadeSigla").val().trim() != "" && $("#UnidadeSigla").val().trim().length > 1) {
+                    $.ajax({
+                        url: '@Url.Action("Edit","Unidade")',
+                        type: "GET",
+                        data: { id: $("#UnidadeSigla").val() },
+                        success: function (data) {
+                            $("#chamarModal").click();
+                            $("#myModalLabel").html('Editar Unidade');
+                            $("#corpoModal").html(data);
+                        }
+                    })
+                }
+            });
+
+            $("#salvarModal").click(function () {
+                var selectedValue = $("#UnidadeAutoComplete").val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Content("~/Unidade/CriarUnidade/")',
+                    data: { unidadeNovo: selectedValue },
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $("#UnidadeSigla").val(data);
+                            $("#closeModal").click();
+                        }
+                    }
+                });
+
+            });
+
+            $("#editarModal").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Content("~/Unidade/EditUnidadeModal/")',
+                    data: { unidadeSigla: $("#UnidadeSigla").val(), nome: $("#corpoModal").find("#Nome").val() },
+                    success: function (msg) {
+                        $("#myModal").find("#closeModal").click();
+                        $.ajax({
+                            url: '@Url.Action("RecuperaUnidadePorId","Unidade")',
+                            type: "GET",
+                            data: { unidadeID: $("#UnidadeSigla").val() },
+                            success: function (data) {
+                                if (data.length > 0) {
+                                    $("#UnidadeAutoComplete").val(data);
+                                }
+
+                            }
+                        })
+
+                    }
+                });
+            });
+        });
+
+
+    </script>
+}

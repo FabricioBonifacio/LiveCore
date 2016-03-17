@@ -1,0 +1,144 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<LiveCore.Models.TipoContrato>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{
+    ViewBag.Title = "Tipo de Contrato";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Tipo de Contrato</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" id="create" href="#myModal" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Novo Tipo de Contrato</a>
+    </div>
+    <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+            @Html.TextBox("nomeSearch", ViewBag.CurrentFilter as string, new { placeholder = "Tipo de Contrato" })
+        </div>
+        <button type="submit" class="btn btn-primary navbar-btn"><i class="fa fa-search"></i> Buscar</button>
+    </form>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+        <ul class="nav navbar-nav navbar-right"></ul>
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro@ViewBag.Msg</div>
+
+<div class="panel panel-default">
+    <table class="table">
+        <tr class="panel-heading cabecalho">
+            <th>
+                @Html.ActionLink("Tipo de Contrato", "Index", new { ordem = ViewBag.NomeSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Descrição", "Index", new { ordem = ViewBag.DescSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="trselect">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.TipoContratoID)
+                </td>
+            </tr>
+        }
+
+    </table>
+    
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div id="corpoModal" class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModal" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="salvarModal" class="btn btn-primary">Salvar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--Page (Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of Model.PageCount--> 
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, ordem = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(document).tooltip();
+            
+            $(".pagination").addClass("pagination-sm")
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else if ('@ViewBag.Erro'.length > 0) {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+            else if ('@ViewBag.Msg'.length > 0) {
+                $("#alerta").addClass("alert-success");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>@ViewBag.Msg</strong>');
+                $("#alerta").show();
+            }
+        });
+
+        $(".trselect").click(function () {
+            var id = $(this).find("#item_TipoContratoID").val();
+            window.location.href = "/TipoContrato/Details/" + id;
+        });
+
+        $("#salvarModal").click(function () {
+            $("#submit").click();
+        });
+
+        $("#create").click(function () {
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("Create", "TipoContrato")',
+                success: function (data) {
+                    $("#myModalLabel").html('Novo Tipo de Contrato');
+                    $("#corpoModal").html('');
+                    $("#corpoModal").append(data);
+                }
+            });
+        });
+
+    </script>
+}

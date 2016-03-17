@@ -1,0 +1,38 @@
+﻿@model LiveCore.Models.PapelContato
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "";
+}
+
+
+<div>
+
+    Você tem certeza que deseja deletar o Papel @Html.DisplayFor(model => model.Nome)?
+    @Html.HiddenFor(model => model.PapelContatoID)
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" id="submit" hidden />
+        </div>
+    }
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+
+        });
+
+    </script>
+
+}

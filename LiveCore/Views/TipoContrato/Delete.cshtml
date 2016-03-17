@@ -1,0 +1,36 @@
+﻿@model LiveCore.Models.TipoContrato
+
+@{
+    ViewBag.Title = "Deletar Tipo de Contrato";
+    Layout = "";
+}
+
+<div>
+
+    Você tem certeza que deseja deletar o Tipo de Contrato @Html.DisplayFor(model => model.Nome)?
+    @Html.HiddenFor(model => model.TipoContratoID)
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" id="submit" hidden />
+        </div>
+    }
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+
+        });
+
+    </script>
+
+}

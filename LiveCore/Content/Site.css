@@ -1,0 +1,279 @@
+﻿body {
+    padding-top: 50px;
+    margin:0;
+    height: 100%;
+}
+
+html{
+    height: 100%;
+}
+
+#tudo{
+    margin: 0 auto;
+    text-align: left;
+    position: relative;
+    min-height: 100%;
+}
+
+/*footer{
+    position: absolute; 
+    bottom: 0; 
+    width: 84%; padding-top: 60px;
+    
+} */
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    /*padding-bottom: 60px; */
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+td a [class^="fa-"],
+td a [class*=" fa-"],
+td a [class^="glyphicon-"],
+td a [class*="glyphicon-"],
+p a [class^="fa-"],
+p a [class*=" fa-"],
+p a [class^="glyphicon-"],
+p a [class*="glyphicon-"],
+div a [class^="fa-"],
+div a [class*=" fa-"],
+div a [class^="glyphicon-"],
+div a [class*="glyphicon-"] {
+    color: #333;
+    padding-right: 5px;
+}
+
+.trselect:hover{
+    background-color: #ecf3f9;
+    cursor: pointer;
+}
+
+.close-button{
+    color: #ffffff;
+    background-color: #d9534f;
+    border-right-color: #d43f3a;
+    border-top-color: #d43f3a;
+    border-bottom-color: #d43f3a;
+}
+
+.close-button:hover{
+    color: #ffffff;
+    background-color: #d2322d;
+    border-right-color: #ac2925;
+    border-top-color: #ac2925;
+    border-bottom-color: #ac2925;
+}
+
+.button-historico{
+    width: 700px;
+    text-align: left;
+    white-space: normal;
+}
+
+.cabecalho{
+    background-color: #f8f8f8;
+}
+
+.checkboxSel{
+    width: 20px;
+}
+
+.footer{
+    color: #777;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+    bottom: 0;
+    line-height: 35px;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+}
+
+.body-content{
+    padding-bottom: 35px;
+    height: 100%;
+    
+}
+
+.form-horizontal{
+    padding-top: 20px;
+}
+
+.panel-body{
+    padding-bottom: 0px;
+}
+
+form{
+    
+}
+
+a i.fa-plus{
+    color: #1d9d74;
+}
+
+a i.fa-pencil{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+a i.fa-file-pdf-o{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+a i.fa-file-text-o{
+    color: #1d9d74;
+}
+
+a i.fa-user{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+a i.fa-tasks{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+a i.fa-copy{
+    color: #1d9d74;
+}
+
+a i.fa-list{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+a i.fa-sort-asc{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+li a i.fa-group{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+li a i.fa-download{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+li a i.fa-wrench{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+li a i.fa-keyboard-o{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+li a i.fa-forward{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+li a i.fa-list-ol{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+li a i.fa-dollar{
+    color: #1d9d74;
+}
+
+li a i.fa-suitcase{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+li a i.fa-search{
+    color: #1d9d74;
+    font-size: 1.2em;
+}
+
+li a i.fa-sign-out{
+    color: white;
+}
+
+button span.fa-trash-o{
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    font-size: 1.1em;
+}
+
+button span.fa-save{
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    font-size: 1.1em;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+.navbar .nav > li > .dropdown-menu:before {
+    position: absolute;
+    top: -7px;
+    left: 9px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #ccc;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    content: '';
+}
+
+.navbar .nav > li > .dropdown-menu:after {
+    position: absolute;
+    top: -6px;
+    left: 10px;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #ffffff;
+    border-left: 6px solid transparent;
+    content: '';
+}
+
+.dropdown-menu > li > a {
+    color: #333;
+}
+
+#erroDiv {
+    color: red;
+}

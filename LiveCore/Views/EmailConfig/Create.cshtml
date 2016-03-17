@@ -1,0 +1,133 @@
+﻿@model LiveCore.Models.EmailConfig
+
+@{
+    ViewBag.Title = "Configuração SMTP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Configuração SMTP</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="cancelar" onclick="location.href = '@Url.Action("Index", "Home")'" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Cancelar
+        </button>
+        <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+            <span class="fa fa-save"></span> Salvar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro@ViewBag.Msg</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Configuração SMTP</h4></div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Host, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBoxFor(model => model.Host, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Host)
+                    </div>
+                    @Html.LabelFor(model => model.Porta, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-1">
+                        @Html.TextBoxFor(model => model.Porta, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Porta)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Login, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.TextBoxFor(model => model.Login, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Login)
+                    </div>
+                    @Html.LabelFor(model => model.Senha, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.PasswordFor(model => model.Senha, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Senha)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmailFrom, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.EmailFrom, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EmailFrom)
+                    </div>
+                    
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmailDefaultTo, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.EmailDefaultTo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EmailDefaultTo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" id="submit" class="btn btn-default" hidden />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+
+            $("#submit").hide();
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else if ('@ViewBag.Erro'.length > 0) {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+            else if ('@ViewBag.Msg'.length > 0) {
+                $("#alerta").addClass("alert-success");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>@ViewBag.Msg</strong>');
+                $("#alerta").show();
+            }
+
+            $("#submitFalso").click(function () {
+                $("#submit").trigger('click');
+            });
+        });
+    </script>
+}

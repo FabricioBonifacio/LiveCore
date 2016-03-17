@@ -1,0 +1,244 @@
+﻿@model LiveCore.Models.Proposta
+
+@{
+    ViewBag.Title = "Copiar Proposta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="~/Proposta/Index">Proposta</a></li>
+    <li class="active">@Html.DisplayFor(model => model.IdentProposta)</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "Proposta")"><i class="fa fa-plus"></i> Nova Proposta</a>
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="cancelar" onclick="location.href = '@Url.Action("Details", "Proposta", new { id = Model.EntidadeID })'" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Cancelar
+        </button>
+        <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+            <span class="fa fa-save"></span> Salvar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Copiar Proposta</h4></div>
+    <div class="panel-body">
+        @using (Html.BeginForm("CopiarProposta", "Proposta", FormMethod.Post, new { EncType = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.PropostaID)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EntidadeID, "Cliente", new { @class = "control-label col-md-2" })
+                    <div class="col-xs-3">
+                        @Html.DropDownList("EntidadeID", String.Empty)
+                        @Html.ValidationMessageFor(model => model.EntidadeID)
+                    </div>
+                    @Html.LabelFor(model => model.Referencia, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-4">
+                        @Html.TextBoxFor(model => model.Referencia, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Referencia)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ValorTotal, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.EditorFor(model => model.ValorTotal, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ValorTotal)
+                    </div>
+                    @Html.LabelFor(model => model.Validade, new { @class = "control-label col-md-2 validadeLabel" })
+                    <div class="col-xs-2">
+                        @Html.TextBoxFor(model => model.Validade, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Validade)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RespLiveID, "Gerente de Conta", new { @class = "control-label col-md-2" })
+                    <div class="col-xs-3">
+                        @Html.DropDownList("RespLiveID", String.Empty)
+                        @Html.ValidationMessageFor(model => model.RespLiveID)
+                    </div>
+                    @Html.LabelFor(model => model.ContatoID, "Contato do Cliente", new { @class = "control-label col-md-2" })
+                    <div class="col-xs-3">
+                        @Html.DropDownList("ContatoID", String.Empty)
+                        @Html.ValidationMessageFor(model => model.ContatoID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StatusSigla, "Estágio da Proposta", new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.DropDownList("StatusSigla", String.Empty)
+                        @Html.ValidationMessageFor(model => model.StatusSigla)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Anexo, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="button" value="Anexar" id="Anexar" class="btn btn-default" />
+                        <input id="uploadFile" name="uploadFile" type="file" />
+                        @Html.ValidationMessageFor(model => model.Anexo)
+                        <label id="NomeArquivoLabel" class="control-label" for="">@ViewData["NomeArquivo"]</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Versao, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-1">
+                        @Html.EditorFor(model => model.Versao, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Versao)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Salvar" id="submit" class="btn btn-default" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.HiddenFor(model => model.ContentType, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ContentType)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.HiddenFor(model => model.NomeArquivo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.NomeArquivo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.HiddenFor(model => model.IdentProposta, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.IdentProposta)
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+       
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(".validadeLabel").css("width", 285);
+
+            $("#EntidadeID").addClass("form-control");
+            $("#RespLiveID").addClass("form-control");
+            $("#ContatoID").addClass("form-control");
+            $("#StatusSigla").addClass("form-control");
+            $("#ValorTotal").addClass("form-control");
+            $("#Versao").addClass("form-control");
+            $("#alerta").hide();
+            $("#submit").hide();
+
+           // $("#EntidadeID").attr('disabled', 'disabled');
+           // $("#RespLiveID").attr('disabled', 'disabled');
+           // $("#ContatoID").attr('disabled', 'disabled');
+           // $("#StatusSigla").attr('disabled', 'disabled');
+           // $("#ValorTotal").attr('disabled', 'disabled');
+            
+            $("#Anexar").attr('disabled', 'disabled');
+
+            $("#uploadFile").hide();
+
+            $("#Anexar").click(function () {
+                $("#uploadFile").click();
+            });
+
+            $(function () {
+                $("#ValorTotal").mask("###0,00", { reverse: true, maxlength: false });
+                $("#Validade").datepicker({ dateFormat: 'dd/mm/yy' });
+                $("#Validade").mask('00/00/0000');
+
+                jQuery.validator.addMethod(
+                    'date',
+                    function (value, element, params) {
+                        if (this.optional(element)) {
+                            return true;
+                        };
+                        var result = false;
+                        try {
+                            $.datepicker.parseDate('dd/mm/yy', value);
+                            result = true;
+                        } catch (err) {
+                            result = false;
+                        }
+                        return result;
+                    },
+                    ''
+                );
+            });
+
+
+            $("#EntidadeID").change(function () {
+                var selectedValue = $(this).val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Content("~/Proposta/BuscaContatos/")',
+                    data: { id: $(this).val()},
+                    success: function (data) {
+                        $("#ContatoID").html('');
+                        $("#ContatoID").append($('<option></option>'));
+                        $.each(data, function (id, option) {
+                            $("#ContatoID").append($('<option></option>').val(option.id).html(option.name));
+                        });
+                    }
+                });
+
+            });
+
+            $("#submitFalso").click(function () {
+                $("#submit").trigger('click');
+            });
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+
+
+        });
+
+    </script>
+}
+

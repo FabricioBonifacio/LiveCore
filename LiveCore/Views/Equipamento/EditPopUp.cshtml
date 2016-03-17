@@ -1,0 +1,129 @@
+﻿@model LiveCore.Models.Equipamento
+
+@{
+    ViewBag.Title = "Editar Equipamento";
+    Layout = "";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.EquipamentoID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
+            <div class="col-xs-9">
+                @Html.TextBoxFor(model => model.Nome, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nome)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descricao, new { @class = "control-label col-md-2" })
+            <div class="col-xs-9">
+                @Html.TextAreaFor(model => model.Descricao, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Descricao)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NCM, new { @class = "control-label col-md-2" })
+            <div class="col-xs-3">
+                @Html.TextBoxFor(model => model.NCM, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NCM)
+            </div>
+            @Html.LabelFor(model => model.Marca, new { @class = "control-label col-md-2" })
+            <div class="col-xs-3">
+                @Html.TextBoxFor(model => model.Marca, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Marca)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnidadeSigla, "Unidade", new { @class = "control-label col-md-2" })
+            <div class="col-xs-3">
+                @Html.DropDownList("UnidadeSigla", String.Empty)
+                @Html.ValidationMessageFor(model => model.UnidadeSigla)
+            </div>
+            <a data-toggle="collapse" class="btn btn-primary" id="expandeColapso" data-parent="#accordionUnidade" href="#colapsoUnidade">
+                Editar Unidade
+            </a>
+        </div>
+
+        <div id="accordionUnidade">
+
+            <div id="colapsoUnidade" class="panel-collapse collapse in">
+                <hr />
+                <div id="conteudoColapso">
+
+                </div>
+                <hr />
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Referencia, new { @class = "control-label col-md-2" })
+            <div class="col-xs-3" id="referenciaDiv">
+                @Html.TextBoxFor(model => model.Referencia, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Referencia)
+            </div>
+            <div class="col-xs-4" id="erroDiv">
+                Já existe um equipamento com esse Part Number.
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PrecoCusto, new { @class = "control-label col-md-2" })
+            <div class="col-xs-3">
+                @Html.EditorFor(model => model.PrecoCusto, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PrecoCusto)
+            </div>
+            @Html.LabelFor(model => model.PrecoCustoDolar, new { @class = "control-label col-md-2" })
+            <div class="col-xs-3">
+                @Html.EditorFor(model => model.PrecoCustoDolar, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PrecoCustoDolar)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PrecoVenda, new { @class = "control-label col-md-2" })
+            <div class="col-xs-3">
+                @Html.EditorFor(model => model.PrecoVenda, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PrecoVenda)
+            </div>
+            @Html.LabelFor(model => model.PrecoVendaDolar, new { @class = "control-label col-md-2" })
+            <div class="col-xs-3">
+                @Html.EditorFor(model => model.PrecoVendaDolar, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PrecoVendaDolar)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValorAluguel, new { @class = "control-label col-md-2" })
+            <div class="col-xs-3">
+                @Html.EditorFor(model => model.ValorAluguel, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ValorAluguel)
+            </div>
+            @Html.LabelFor(model => model.ValorAluguelDolar, new { @class = "control-label col-md-2" })
+            <div class="col-xs-3">
+                @Html.EditorFor(model => model.ValorAluguelDolar, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ValorAluguelDolar)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-primary" id="submitEquipamento" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

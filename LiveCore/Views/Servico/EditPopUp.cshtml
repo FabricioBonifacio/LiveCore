@@ -1,0 +1,83 @@
+﻿@model LiveCore.Models.Servico
+
+@{
+    ViewBag.Title = "Editar Serviço";
+    Layout = "";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.ServicoID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
+            <div class="col-xs-6">
+                @Html.TextBoxFor(model => model.Nome, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nome)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descricao, new { @class = "control-label col-md-2" })
+            <div class="col-xs-9">
+                @Html.TextAreaFor(model => model.Descricao, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Descricao)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnidadeSigla, "Unidade", new { @class = "control-label col-md-2" })
+            <div class="col-xs-4">
+                @Html.DropDownList("UnidadeSigla", String.Empty)
+                @Html.ValidationMessageFor(model => model.UnidadeSigla)
+            </div>
+            <a data-toggle="collapse" class="btn btn-primary" id="expandeColapso" data-parent="#accordionUnidade" href="#colapsoUnidade">
+                Editar Unidade
+            </a>
+        </div>
+
+        <div id="accordionUnidade">
+
+            <div id="colapsoUnidade" class="panel-collapse collapse in">
+                <hr />
+                <div id="conteudoColapso">
+
+                </div>
+                <hr />
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Valor, new { @class = "control-label col-md-2" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.Valor)
+                @Html.ValidationMessageFor(model => model.Valor)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValorDolar, new { @class = "control-label col-md-2" })
+            <div class="col-xs-2">
+                @Html.EditorFor(model => model.ValorDolar)
+                @Html.ValidationMessageFor(model => model.ValorDolar)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-primary" id="submitServico" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

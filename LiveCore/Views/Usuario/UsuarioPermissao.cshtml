@@ -1,0 +1,47 @@
+﻿@model LiveCore.Models.Usuario
+
+@{
+    ViewBag.Title = "Permissão do Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol id="selectable">
+    @foreach (var item in @Model.Permissoes)
+    {
+        <li class="ui-widget-content">@item.Nome</li>
+    }
+</ol>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            function buscaPermissoes() {
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("BuscaPermissoes", "Permissao")',
+                    success: function (data) {
+                        $("#myModalLabel").html('Vincular Papel do Contato');
+                        $("#corpoModal").html('');
+                        $("#corpoModal").append(data);
+                        $('.checkboxSel input:checkbox').each(function () {
+                            var idElement = $(this).attr('id');
+                            for (i = 0; i < selecionados.length; i++) {
+                                if (idElement == selecionados[i]) {
+                                    $(this).attr('checked', 'checked');
+                                }
+                            }
+                        });
+
+                    }
+                });
+            }
+        });
+
+    </script>
+}

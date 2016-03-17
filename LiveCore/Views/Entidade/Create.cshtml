@@ -1,0 +1,293 @@
+﻿@model LiveCore.Models.Entidade
+
+@{
+    ViewBag.Title = "Nova Entidade";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+         {
+             Text = "Física",
+             Value = "F"
+         });
+    listItems.Add(new SelectListItem
+         {
+             Text = "Jurídica",
+             Value = "J",
+         });
+}
+
+
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="Index">Entidade</a></li>
+    <li class="active">Nova Entidade</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "Entidade")"><i class="fa fa-plus"></i> Nova Entidade</a>
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="cancelar" onclick="location.href = '@Url.Action("Index", "Entidade")'" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Cancelar
+        </button>
+        <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+            <span class="fa fa-save"></span> Salvar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Nova Entidade</h4></div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TipoEntidade, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-2">
+                        @Html.DropDownListFor(model => model.TipoEntidade, listItems, "-- Selecione --")
+                    </div>
+                </div>
+                <div id="camposEntidade">
+                    <div class="form-group" id="divNome">
+                        @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-5">
+                            @Html.TextBoxFor(model => model.Nome, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Nome)
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="divNomeFantasia">
+                        @Html.LabelFor(model => model.NomeFantasia, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-5">
+                            @Html.TextBoxFor(model => model.NomeFantasia, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NomeFantasia)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Endereco, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-7">
+                            @Html.TextBoxFor(model => model.Endereco, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Endereco)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Bairro, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-2">
+                            @Html.TextBoxFor(model => model.Bairro, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Bairro)
+                        </div>
+                        @Html.LabelFor(model => model.Cidade, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-2">
+                            @Html.TextBoxFor(model => model.Cidade, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Cidade)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CEP, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-2">
+                            @Html.TextBoxFor(model => model.CEP, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CEP)
+                        </div>
+                        @Html.LabelFor(model => model.UF, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-2">
+                            @Html.DropDownListFor(model => model.UF, Model.UFs)
+                            @Html.ValidationMessageFor(model => model.UF)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Telefone, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-2">
+                            @Html.TextBoxFor(model => model.Telefone, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Telefone)
+                        </div>
+                        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-4">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="divCNPJ">
+                        @Html.LabelFor(model => model.CNPJ, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-3">
+                            @Html.TextBoxFor(model => model.CNPJ, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CNPJ)
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="divCPF">
+                        @Html.LabelFor(model => model.CPF, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-2">
+                            @Html.TextBoxFor(model => model.CPF, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CPF)
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="divInscEstadual">
+                        @Html.LabelFor(model => model.InscEstadual, new { @class = "control-label col-md-2" })
+                        <div class="col-xs-3">
+                            @Html.TextBoxFor(model => model.InscEstadual, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.InscEstadual)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Salvar" id="submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#camposEntidade").hide();
+            $("#alerta").hide();
+            $("#submit").hide();
+            $("#UF").val("ES");
+            $("#CPF").mask("000.000.000-00");
+            $("#CNPJ").mask("00.000.000/0000-00");
+            $('#Telefone').mask('(00) 900000000')
+            $("#CEP").mask('00000-000');
+
+            $(document).tooltip();
+            $("#UF").addClass("form-control");
+            $("#PapelID").addClass("form-control");
+            $("#TipoEntidade").addClass("form-control");
+
+            
+            $("#TipoEntidade").change(function () {
+
+                $("#camposEntidade").slideUp(100);
+
+                if ($(this).val() == 'F') {
+                    $("#divInscEstadual").hide();
+                    $("#divCNPJ").hide();
+                    $("#divNomeFantasia").hide();
+                    $("#divRazaoSocial").hide();
+                    $("#divNome label").html('Nome');
+                    $("#divCPF").show();
+                    $("#camposEntidade").slideDown(900);
+                }
+                else if ($(this).val() == 'J') {
+                    $("#divNome label").html('Razão Social');
+                    $("#divCPF").hide();
+                    $("#divInscEstadual").show();
+                    $("#divCNPJ").show();
+                    $("#divNomeFantasia").show();
+                    $("#divRazaoSocial").show();
+                    $("#camposEntidade").slideDown(900);
+                }
+            });
+
+            $("#submitFalso").click(function () {
+                $("#submit").trigger('click');
+            });
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+
+            $("#CPF").blur(function () {
+                var cpf = $("#CPF").val();
+                exp = /\.|\-/g
+                cpf = cpf.toString().replace(exp, "");
+                var digitoDigitado = eval(cpf.charAt(9) + cpf.charAt(10));
+                var soma1 = 0, soma2 = 0;
+                var vlr = 11;
+
+                for (i = 0; i < 9; i++) {
+                    soma1 += eval(cpf.charAt(i) * (vlr - 1));
+                    soma2 += eval(cpf.charAt(i) * vlr);
+                    vlr--;
+                }
+                soma1 = (((soma1 * 10) % 11) == 10 ? 0 : ((soma1 * 10) % 11));
+                soma2 = (((soma2 + (2 * soma1)) * 10) % 11);
+
+                var digitoGerado = (soma1 * 10) + soma2;
+                if (digitoGerado != digitoDigitado) {
+                    $("#CPF").parent().addClass('has-error');
+                    alert('CPF Invalido!');
+                }
+                else {
+                    $("#CPF").parent().removeClass('has-error');
+                }
+            });
+            
+            $("#CNPJ").blur(function () {
+                var cnpj = $("#CNPJ").val();
+                var valida = new Array(6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2);
+                var dig1 = new Number;
+                var dig2 = new Number;
+
+                exp = /\.|\-|\//g
+                cnpj = cnpj.toString().replace(exp, "");
+                var digito = new Number(eval(cnpj.charAt(12) + cnpj.charAt(13)));
+
+                for (i = 0; i < valida.length; i++) {
+                    dig1 += (i > 0 ? (cnpj.charAt(i - 1) * valida[i]) : 0);
+                    dig2 += cnpj.charAt(i) * valida[i];
+                }
+                dig1 = (((dig1 % 11) < 2) ? 0 : (11 - (dig1 % 11)));
+                dig2 = (((dig2 % 11) < 2) ? 0 : (11 - (dig2 % 11)));
+
+                if (((dig1 * 10) + dig2) != digito) {
+                    $("#CNPJ").parent().addClass('has-error');
+                    alert('CNPJ Invalido!');
+                }
+                else {
+                    $("#CNPJ").parent().removeClass('has-error');
+                }
+
+            });
+        });
+
+    </script>
+}
+
+

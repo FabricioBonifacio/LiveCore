@@ -1,0 +1,58 @@
+﻿@model IEnumerable<LiveCore.Models.ProximoPassoProposta>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCriacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataAgendamento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraAgendamento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descricao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataCriacao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataAgendamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraAgendamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ProximoPassoPropostaID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ProximoPassoPropostaID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ProximoPassoPropostaID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,32 @@
+﻿@model LiveCore.Models.ItemPropostaEquipamento
+
+@{
+    ViewBag.Title = "Deletar Item da Proposta";
+    Layout = "";
+}
+
+<div>
+    
+    Você tem certeza que deseja deletar o Item de Equipamento @Html.DisplayFor(model => model.Equipamento.Nome)?
+    @Html.HiddenFor(model => model.ItemPropostaEquipID)
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" id="submit" hidden />
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+<script>
+
+    $(document).ready(function () {
+
+    });
+</script>
+    }

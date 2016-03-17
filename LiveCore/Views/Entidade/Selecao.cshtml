@@ -1,0 +1,165 @@
+﻿@model IEnumerable<LiveCore.Models.Entidade>
+
+@{
+    ViewBag.Title = "Seleção de Entidades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="~/Contato/Index">Contato</a></li>
+    <li><a href="~/Contato/Details/@ViewData["Contato"]">@ViewData["ContatoNome"]</a></li>
+    <li><a href="~/Contato/Entidades/@ViewData["Contato"]">Entidades</a></li>
+    <li class="active">Seleção de Entidades</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="@Url.Action("Create", "Entidade")"><i class="fa fa-plus"></i> Nova Entidade</a>
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="cancelar" onclick="location.href = '@Url.Action("Entidades", "Contato", new { id = ViewData["Contato"] })'" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Cancelar
+        </button>
+        <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+            <span class="fa fa-save"></span> Vincular Entidades
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro</div>
+
+<div class="panel panel-default">
+    <table class="table">
+        <tr class="panel-heading cabecalho">
+            <th></th>
+            <th>
+                @Html.DisplayName("Nome")
+            </th>
+            <th>
+                @Html.DisplayName("CNPJ/CPF")
+            </th>
+            <th>
+                @Html.DisplayName("E-mail")
+            </th>
+            <th>
+                @Html.DisplayName("UF")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="trselect">
+                <td>
+                    @Html.CheckBox("Vincular")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @if (item.TipoEntidade.Equals("J"))
+                    {
+                        Html.DisplayFor(modelItem => item.CNPJ);
+                    }
+                    else
+                    {
+                        Html.DisplayFor(modelItem => item.CPF);
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UF)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.EntidadeID)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+
+            $(".trselect").click(function () {
+                if (!$(this).find("#Vincular").prop('checked')) {
+                    var id = $(this).find("#Vincular").prop('checked', true);
+                }
+                else {
+                    var id = $(this).find("#Vincular").prop('checked', false);
+                }
+            });
+
+            $("#submitFalso").click(function () {
+                var array = "";
+                $(".trselect").each(function () {
+                    if ($(this).find("#Vincular").prop('checked'))
+                    {
+                        array += $(this).find("#item_EntidadeID").val() + ",";
+                    }
+                });
+                if (array != "") {
+                    vincularContato(array);
+                }
+                else {
+                    $("#alerta").addClass("alert-warning");
+                    $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Aviso!</strong> Nenhuma entidade foi selecionada.');
+                    $("#alerta").show();
+                }
+            });
+
+            function vincularContato(array) {
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Content("~/Entidade/Vincular/")',
+                    data: { idArray: array },
+                    success: function (data) {
+                        if (data == "")
+                        {
+                            window.location = "/Contato/Entidades/" + '@ViewData["Contato"]';
+                        }
+                        else {
+                            $("#alerta").addClass("alert-danger");
+                            $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong>' + data);
+                            $("#alerta").show();
+                        }
+                    }
+                });
+            }
+
+        });
+
+    </script>
+}

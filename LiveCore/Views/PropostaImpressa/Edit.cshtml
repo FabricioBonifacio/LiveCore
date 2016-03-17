@@ -1,0 +1,265 @@
+﻿@model LiveCore.Models.PropostaImpressa
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="~/Proposta/Index">Proposta</a></li>
+    <li><a href="~/Proposta/Details/@Model.PropostaID">Proposta @ViewBag.IdentProposta</a></li>
+    <li class="active">Visualização da Proposta Impressa</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+    </div>
+    <div class="navbar-form navbar-right">
+        <button id="cancelar" onclick="location.href = '@Url.Action("Index", "Home")'" class="btn btn-danger navbar-btn">
+            <span class="fa fa-times"></span> Cancelar
+        </button>
+        <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+            <span class="fa fa-save"></span> Salvar
+        </button>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav"></ul>
+
+        <ul class="nav navbar-nav navbar-right"></ul>
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro@ViewBag.Msg</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Visualização da Proposta Impressa</h4></div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.PropostaID)
+                @Html.HiddenFor(model => model.PropostaImpressaID)
+
+                <b> Condições Geral de Venda</b><hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cond_Valores, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextBoxFor(model => model.Cond_Valores, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cond_Valores)
+                    </div>
+                    @Html.CheckBoxFor(model => model.Cond_ValoresSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cond_Impostos, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextBoxFor(model => model.Cond_Impostos, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cond_Impostos)
+                    </div>
+                    @Html.CheckBoxFor(model => model.Cond_ImpostosSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cond_Frete, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextBoxFor(model => model.Cond_Frete, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cond_Frete)
+                    </div>
+                    @Html.CheckBoxFor(model => model.Cond_FreteSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cond_Faturamento, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextBoxFor(model => model.Cond_Faturamento, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cond_Faturamento)
+                    </div>
+                    @Html.CheckBoxFor(model => model.Cond_FaturamentoSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cond_Validade, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextBoxFor(model => model.Cond_Validade, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cond_Validade)
+                    </div>
+                    @Html.CheckBoxFor(model => model.Cond_ValidadeSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cond_PrazoEntrega, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextBoxFor(model => model.Cond_PrazoEntrega, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cond_PrazoEntrega)
+                    </div>
+                    @Html.CheckBoxFor(model => model.Cond_PrazoEntregaSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cond_Despesas, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextBoxFor(model => model.Cond_Despesas, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cond_Despesas)
+                    </div>
+                    @Html.CheckBoxFor(model => model.Cond_DespesasSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cond_Garantia, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextBoxFor(model => model.Cond_Garantia, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cond_Garantia)
+                    </div>
+                    @Html.CheckBoxFor(model => model.Cond_GarantiaSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cond_CampoLivre, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextAreaFor(model => model.Cond_CampoLivre, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cond_CampoLivre)
+                    </div>
+                    @Html.CheckBoxFor(model => model.Cond_CampoLivreSN)
+                </div>
+
+                <b> Demais Campos</b><hr />
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Introducao, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextAreaFor(model => model.Introducao, new { @class = "form-control", @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.Introducao)
+                    </div>
+                    @Html.CheckBoxFor(model => model.IntroducaoSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AcordoConfiab, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextAreaFor(model => model.AcordoConfiab, new { @class = "form-control", @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.AcordoConfiab)
+                    </div>
+                    @Html.CheckBoxFor(model => model.AcordoConfiabSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Objetivos, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control", @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.Objetivos)
+                    </div>
+                    @Html.CheckBoxFor(model => model.ObjetivosSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ConfigSolucao, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextAreaFor(model => model.ConfigSolucao, new { @class = "form-control", @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.ConfigSolucao)
+                    </div>
+                    @Html.CheckBoxFor(model => model.ConfigSolucaoSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EscopoProjeto, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextAreaFor(model => model.EscopoProjeto, new { @class = "form-control", @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.EscopoProjeto)
+                    </div>
+                    @Html.CheckBoxFor(model => model.EscopoProjetoSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Metodologia, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextAreaFor(model => model.Metodologia, new { @class = "form-control", @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.Metodologia)
+                    </div>
+                    @Html.CheckBoxFor(model => model.MetodologiaSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Investimentos, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextAreaFor(model => model.Investimentos, new { @class = "form-control", @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.Investimentos)
+                    </div>
+                    @Html.CheckBoxFor(model => model.InvestimentosSN)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TermoAceite, new { @class = "control-label col-md-2" })
+                    <div class="col-xs-9">
+                        @Html.TextAreaFor(model => model.TermoAceite, new { @class = "form-control", @rows = 10 })
+                        @Html.ValidationMessageFor(model => model.TermoAceite)
+                    </div>
+                    @Html.CheckBoxFor(model => model.TermoAceiteSN)
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Edit" class="btn btn-default" id="submit" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("/Scripts/tinymce/tinymce.min.js")
+
+    <script>
+
+        tfm_path = '/tinyfilemanager.net';
+
+    tinymce.init({
+        selector: "textarea",
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | sizeselect | bold italic | fontselect |  fontsizeselect",
+        plugins: [
+        "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+        "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+        "save table contextmenu directionality emoticons template paste textcolor tinyfilemanager.net"
+        ]
+    });
+    $(document).ready(function () {
+
+        $("#submit").hide();
+
+        if ($('#alerta').html() == '') {
+            $("#alerta").hide();
+        }
+        else if ('@ViewBag.Erro'.length > 0) {
+            $("#alerta").addClass("alert-danger");
+            $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+            $("#alerta").show();
+        }
+        else if ('@ViewBag.Msg'.length > 0) {
+            $("#alerta").addClass("alert-success");
+            $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>@ViewBag.Msg</strong>');
+            $("#alerta").show();
+        }
+
+        $("#submitFalso").click(function () {
+            $("#submit").trigger('click');
+        });
+    });
+</script>
+
+}

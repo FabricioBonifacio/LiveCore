@@ -1,0 +1,159 @@
+﻿@model LiveCore.Models.Empresa
+
+@{
+    ViewBag.Title = "Colaboradores da Empresa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .table tbody > tr > td {
+        border-top: none !important;
+    }
+    .form-horizontal{
+        padding-top: 0px;
+    }
+</style>
+
+
+<ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="~/Empresa/Index">Empresa</a></li>
+    <li><a href="~/Empresa/Details/@Model.EmpresaID">@Model.RazaoSocial</a></li>
+    <li class="active">Colaboradores</li>
+</ol>
+
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <!--<a class="navbar-brand" href="@Url.Action("Create", "Entidade")"><i class="fa fa-plus"></i> Nova Entidade</a>-->
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li><a href="@Url.Action("Selecao", "Contato", new { id = Model.EmpresaID, remetente = "Empresa" })"><i class=" fa fa-user"></i> Vincular Colaborador</a></li>
+        </ul>
+        <div class="navbar-form navbar-right">
+            <button id="cancelar" onclick="location.href = '@Url.Action("Details", "Empresa", new { id = @Model.EmpresaID })'" class="btn btn-danger navbar-btn">
+                <span class="fa fa-times"></span> Cancelar
+            </button>
+            <button id="submitFalso" type="submit" class="btn btn-success navbar-btn">
+                <span class="fa fa-save"></span> Desvincular Colaborador
+            </button>
+        </div>
+    </div><!-- /.navbar-collapse -->
+</nav>
+<div id="alerta" class="alert">@ViewBag.Erro@ViewBag.Msg</div>
+
+<div class="panel panel-default">
+    <table class="table">
+        <tr class="panel-heading cabecalho">
+            <th style="width: 3%"></th>
+            <th style="width: 40%">
+                @Html.DisplayName("Nome")
+            </th>
+            <th style="width: 20%">
+                @Html.DisplayName("Telefone")
+            </th>
+            <th style="width: 17%">
+                @Html.DisplayName("E-mail")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Colaboradores)
+        {
+            <tr class="trselect">
+                <td>
+                    @Html.CheckBox("Desvincular")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.ContatoID)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            if ($('#alerta').html() == '') {
+                $("#alerta").hide();
+            }
+            else {
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong> @ViewBag.Erro');
+                $("#alerta").show();
+            }
+
+            $(".trselect").click(function () {
+                if (!$(this).find("#Desvincular").prop('checked')) {
+                    var id = $(this).find("#Desvincular").prop('checked', true);
+                }
+                else {
+                    var id = $(this).find("#Desvincular").prop('checked', false);
+                }
+            });
+
+            $("#submitFalso").click(function () {
+                var array = "";
+                $(".trselect").each(function () {
+                    if ($(this).find("#Desvincular").prop('checked'))
+                    {
+                        array += $(this).find("#item_ContatoID").val() + ",";
+                    }
+                });
+                if (array != "") {
+                    desvincularContato(array);
+                }
+                else {
+                    $("#alerta").addClass("alert-warning");
+                    $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Aviso!</strong> Nenhum contato foi selecionado.');
+                    $("#alerta").show();
+                }
+            });
+
+            function desvincularContato(array) {
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Content("~/Contato/Desvincular/")',
+                    data: { idArray: array, entidadeID: '@Model.EmpresaID', remetente: "Empresa" },
+                    success: function (data) {
+                        if (data == "")
+                        {
+                            window.location = "/Empresa/Colaboradores/" + '@Model.EmpresaID';
+                        }
+                        else {
+                            $("#alerta").addClass("alert-danger");
+                            $("#alerta").html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Erro!</strong>' + data);
+                            $("#alerta").show();
+                        }
+                    }
+                });
+            }
+
+        });
+
+    </script>
+}

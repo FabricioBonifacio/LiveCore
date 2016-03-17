@@ -1,0 +1,53 @@
+﻿@model LiveCore.Models.Status
+
+@{
+    ViewBag.Title = "Novo Estágio da Proposta";
+    Layout = "";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StatusSigla, new { @class = "control-label col-md-2" })
+            <div class="col-xs-2">
+                @Html.TextBoxFor(model => model.StatusSigla, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StatusSigla)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
+            <div class="col-xs-4">
+                @Html.TextBoxFor(model => model.Nome, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nome)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" id="submit" hidden />
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+
+            
+        });
+
+    </script>
+
+}
